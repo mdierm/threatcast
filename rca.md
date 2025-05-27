@@ -347,7 +347,6 @@ sequenceDiagram
         Backend-->>App: Allow akses normal
     end
 ```
-
 ---
 
 ## ⚠️ Keterbatasan & Implikasi
