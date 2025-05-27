@@ -343,7 +343,8 @@ sequenceDiagram
     Threatcast->>Backend: Kirim flag status risiko (API dua arah)
     Backend->>App: Kirim instruksi enforcement (blokir/logout/warning/allow)
     App->>User: Notifikasi tindakan ke user
----
+```
+
 ## ⚠️ Keterbatasan & Implikasi
 
 * **Device\_id Tidak Persisten Hardware:**
