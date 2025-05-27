@@ -320,42 +320,55 @@ Aplikasi mobile banking wondr by BNI menghadapi tantangan signifikan dalam penge
 
 ## 🔗 Alur Kerja Sistem (Flow & Diagram)
 
-### **Deskripsi Alur Kerja**
+---
 
-1. **Instalasi Aplikasi:**
-   Device\_id (yang identik dengan UUID di Threatcast) dibentuk saat aplikasi diinstal.
-2. **Startup/Login Aplikasi:**
-   RASP SDK dan Play Integrity API dijalankan untuk deteksi ancaman lokal.
-3. **Jika Ancaman Terdeteksi:**
-   Event keamanan beserta device\_id dikirim ke Threatcast dan backend wondr.
-4. **(Idealnya) Threatcast Kirim Status Flag ke Backend:**
-   Backend menerima status flag, update database, dan melakukan enforcement otomatis (block/logout/limit/warning).
-5. **User Experience:**
-   Pengguna menerima notifikasi real-time jika device dinyatakan berisiko, serta dapat mengajukan appeal.
-6. **Audit Trail & Compliance:**
-   Semua aksi tercatat untuk audit dan compliance regulator.
+### **Narasi Alur**
+
+1. **User install aplikasi wondr**, proses instalasi men-trigger RASP SDK (Guardsquare) di perangkat.
+2. **RASP SDK mendeteksi event ancaman** (misal: root, custom ROM, dsb.).
+3. **Event RASP otomatis dikirim ke Threatcast Dashboard** milik Guardsquare sebagai pusat monitoring dan analitik.
+4. **Threatcast mengirimkan flag status risiko** (misal: device\_id/UUID flagged) ke backend wondr melalui API dua arah (push/pull).
+5. **Backend memproses flag device\_id/UUID**, mencocokkan dengan data perangkat di sistem:
+
+   * Jika device\_id/UUID terflag, backend **melakukan blokir, force logout, atau limitasi fitur** pada aplikasi wondr di device user.
 
 ---
 
-### **Mermaid Sequence Diagram**
+### **Penjelasan Formal**
+
+**Proses integrasi keamanan ini memastikan bahwa setiap ancaman yang terdeteksi oleh RASP SDK langsung termonitor oleh Threatcast dan segera direspon oleh backend aplikasi wondr. Dengan API dua arah, status flag dari Threatcast otomatis di-query backend, sehingga device yang teridentifikasi berisiko dapat langsung diblokir atau dibatasi tanpa intervensi manual. Hal ini meningkatkan responsivitas, akurasi, dan keamanan layanan mobile banking.**
+
+---
+
+### **Mermaid Sequence Diagram – Disesuaikan**
 
 ```mermaid
 sequenceDiagram
+    participant User as User
     participant App as Aplikasi wondr
     participant RASP as RASP SDK (Guardsquare)
-    participant Backend as Backend API
-    participant DB as Database Risk Device/User
     participant Threatcast as Threatcast Dashboard
+    participant Backend as Backend API
 
-    App->>RASP: Generate device_id (install)
-    App->>RASP: Deteksi ancaman & attestation
-    RASP->>Threatcast: Kirim event & device_id
-    RASP->>Backend: Kirim event & device_id
-    %% Ideal ke depan: Threatcast->>Backend: Push status flag (API dua arah)
-    Backend->>DB: Update risk_status, flag_reason, audit log
-    Backend-->>App: Kirim instruksi enforcement (block/logout/warning)
-    App-->>User: Notifikasi status/device action
+    User->>App: Install aplikasi wondr
+    App->>RASP: Trigger RASP SDK (generate device_id, deteksi ancaman)
+    RASP->>Threatcast: Kirim event & device_id (telemetry)
+    Threatcast->>Backend: Kirim flag status risiko (API dua arah)
+    Backend->>Backend: Proses dan cocokkan device_id/UUID
+    alt device_id melanggar
+        Backend-->>App: Instruksi blokir/logout/warning
+    else device_id normal
+        Backend-->>App: Allow akses normal
+    end
 ```
+
+---
+
+### **Keterangan Singkat**
+
+* **Setiap flag dari Threatcast langsung diproses backend**, jadi tidak ada delay manual atau proses audit menunggu.
+* **User dengan device\_id/UUID yang terkena flag langsung menerima enforcement** (blokir, force logout, warning) via aplikasi.
+* **Sistem siap audit dan scalable** untuk deployment massal.
 
 ---
 
