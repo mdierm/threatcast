@@ -327,7 +327,7 @@ Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RAS
 ---
 
 ### **Mermaid Sequence Diagram – Disesuaikan**
-```
+```Mermaid
 sequenceDiagram
     participant User as User
     participant App as Aplikasi wondr
