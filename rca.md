@@ -326,23 +326,24 @@ Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RAS
 
 ---
 
-### **Mermaid Sequence Diagram – Disesuaikan**
-```Mermaid
+## Mermaid Sequence Diagram – Disesuaikan
+
+```mermaid
 sequenceDiagram
     participant User as User
-    participant App as Aplikasi wondr
-    participant RASP as RASP SDK
-    participant Threatcast as Threatcast Dashboard
-    participant Backend as Backend API
+    participant App as AplikasiWondr
+    participant RASP as RASP_SDK
+    participant Threatcast as ThreatcastDashboard
+    participant Backend as BackendAPI
 
     User->>App: Install aplikasi wondr
-    App->>RASP: Trigger RASP SDK\n(generate device_id,\ndeteksi ancaman)
+    App->>RASP: Trigger RASP SDK, generate device_id, deteksi ancaman
     RASP->>Threatcast: Kirim event & device_id
-    RASP->>Backend: Forward event & device_id
-    Threatcast->>Backend: Kirim flag status risiko
-    Backend->>App: Instruksi blokir/logout/warning\natau allow akses normal
-    App->>User: Tampilkan notifikasi\ndevice action/edukasi
-```
+    RASP->>Backend: Kirim event & device_id
+    Threatcast->>Backend: Kirim flag status risiko (API dua arah)
+    Backend->>App: Kirim instruksi enforcement (blokir/logout/warning/allow)
+    App->>User: Notifikasi tindakan ke user
+---
 ## ⚠️ Keterbatasan & Implikasi
 
 * **Device\_id Tidak Persisten Hardware:**
