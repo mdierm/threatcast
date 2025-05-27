@@ -116,3 +116,86 @@ RAC ini menjadi acuan utama dalam pengelolaan device risk di aplikasi wondr by B
 Kebijakan ini memastikan keamanan tetap optimal tanpa mengorbankan fairness bagi pengguna, dengan monitoring proaktif terhadap device-device berisiko tertinggi.
 
 ---
+
+Tentu! Di bawah ini adalah dokumen **Root Cause Analysis (RCA) formal** berdasarkan seluruh diskusi Anda tentang pengelolaan device risk pada aplikasi mobile banking, keterbatasan integrasi Threatcast, proses identifikasi Top 20 Device, dan penerapan Risk Acceptance Criteria (RAC).
+Struktur dan wording siap dipakai untuk audit, IT Risk, maupun pelaporan manajemen.
+
+---
+
+# **ROOT CAUSE ANALYSIS (RCA) – Pengelolaan Device Risk pada Aplikasi Mobile Banking**
+
+---
+
+## **1. Latar Belakang**
+
+Perangkat mobile yang digunakan nasabah berperan penting dalam keamanan aplikasi mobile banking. Ancaman seperti root, custom ROM, bootloader unlocked, dan masalah sertifikat digital (certificate chain revoked/invalid) terbukti meningkatkan risiko fraud, bypass, dan kompromi data.
+Bank telah menerapkan monitoring menggunakan dashboard Threatcast dan RAC (Risk Acceptance Criteria), namun masih ditemukan sejumlah kendala dalam proses deteksi dan mitigasi device risk.
+
+---
+
+## **2. Ringkasan Permasalahan**
+
+### **A. Integrasi Data Flag Risiko**
+
+* **Dashboard Threatcast** telah menyediakan data deteksi hardware flag (root, custom ROM, bootloader unlocked, cert revoked, dsb.) pada perangkat user.
+* Namun, **sistem aplikasi dan FDS belum terintegrasi langsung dengan Threatcast**, sehingga tidak ada pertukaran data flag risk secara otomatis.
+* **Data Top 20 Device dengan insiden tertinggi masih diperoleh secara manual** dari Threatcast untuk dijadikan prioritas monitoring dan penetapan RAC.
+
+### **B. Ketersediaan Data di Sistem Aplikasi**
+
+* **Data jenis/model device tersedia di sistem aplikasi** dan dapat diakses untuk audit/investigasi.
+* **Data hardware flag tidak tersedia di sistem aplikasi**; hanya dapat diakses via Threatcast secara manual.
+* Hal ini menyebabkan **ketidakmampuan aplikasi untuk melakukan verifikasi/penindakan flag risk device secara real-time atau otomatis**.
+
+### **C. Implementasi Risk Acceptance Criteria (RAC)**
+
+* RAC yang digunakan sudah baik, yakni berbasis penilaian individu per device, bukan massal per model.
+* **Prioritas diberikan pada Top 20 Device**—device yang paling sering terdeteksi flag risk menurut Threatcast.
+* **Action otomatis (block/force logout) hanya diberikan pada device yang flagged risk**, tidak semua device dengan model yang sama.
+* Pengambilan keputusan terkait risk acceptance berbasis flag risk tetap **mengacu pada data manual Threatcast**.
+
+### **D. Implikasi dan Risiko Residual**
+
+* **Potensi delay dalam deteksi dan penindakan** device risk karena keterbatasan data real-time.
+* **Kesulitan dalam melakukan audit/perbandingan antara data device aplikasi dan flag risk**, khususnya pada kasus dispute/appeal dari user.
+* **Monitoring dan updating Top 20 Device harus dilakukan manual**, sehingga respons terhadap tren risk bisa tertunda.
+
+---
+
+## **3. Analisa Akar Masalah (Root Cause Analysis)**
+
+| No | Faktor Penyebab Utama                                      | Penjelasan                                                                                                              |
+| -- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| 1  | **Kurangnya Integrasi Data**                               | Data hardware flag risk (root, dsb.) hanya di Threatcast, tidak tersedia di sistem aplikasi/FDS secara otomatis.        |
+| 2  | **Proses Manual Pengambilan Data Top 20 Device**           | Monitoring dan updating Top 20 Device dilakukan manual, meningkatkan risiko keterlambatan respon dan human error.       |
+| 3  | **Ketergantungan pada Threatcast untuk Deteksi Flag Risk** | Tidak ada sumber data flag risk lain yang bisa diandalkan aplikasi secara otomatis.                                     |
+| 4  | **Absennya Feedback Loop Otomatis**                        | Tidak ada umpan balik dua arah antara aplikasi/FDS dengan Threatcast, sehingga risk management tidak adaptif real-time. |
+
+---
+
+## **4. Rekomendasi Perbaikan**
+
+1. **Integrasi Otomatis Data Threatcast ke Sistem Aplikasi/FDS**
+
+   * Kembangkan API atau mekanisme sinkronisasi real-time sehingga data hardware flag bisa diakses dan diolah langsung oleh FDS untuk action otomatis.
+2. **Otomasi Updating Top 20 Device**
+
+   * Buat pipeline otomatis untuk updating dan monitoring Top 20 Device berisiko tertinggi.
+3. **Penguatan Logging & Audit Trail**
+
+   * Pastikan setiap aksi (block/limit/allow) dan keputusan berbasis RAC tercatat detail untuk kebutuhan audit dan compliance.
+4. **Review & Update Policy Secara Berkala**
+
+   * Jadwalkan review bulanan/kuartalan pada list Top 20 Device dan parameter RAC sesuai tren threat intelligence terbaru.
+5. **Prosedur Eskalasi & Appeal User**
+
+   * Sediakan jalur appeal dan SOP investigasi manual jika user mengklaim device mereka terkena false positive.
+
+---
+
+## **5. Kesimpulan dan Tindak Lanjut**
+
+Pengelolaan device risk pada aplikasi mobile banking saat ini sudah memiliki fondasi yang baik (berbasis RAC per individu), namun **masih terkendala oleh keterbatasan integrasi data antara Threatcast dan aplikasi/FDS**.
+**Solusi utama adalah membangun integrasi data otomatis dan memperkuat proses review, audit, serta appeal,** agar risk management device lebih proaktif, efisien, dan akuntabel.
+
+---
