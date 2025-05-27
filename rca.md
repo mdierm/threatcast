@@ -143,7 +143,6 @@ Bank telah menerapkan monitoring menggunakan dashboard Threatcast dan RAC (Risk 
 
 ### **C. Implementasi Risk Acceptance Criteria (RAC)**
 
-* RAC yang digunakan sudah baik, yakni berbasis penilaian individu per device, bukan massal per model.
 * **Prioritas diberikan pada Top 20 Device**—device yang paling sering terdeteksi flag risk menurut Threatcast.
 * **Action otomatis (block/force logout) hanya diberikan pada device yang flagged risk**, tidak semua device dengan model yang sama.
 * Pengambilan keputusan terkait risk acceptance berbasis flag risk tetap **mengacu pada data manual Threatcast**.
