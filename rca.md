@@ -117,9 +117,6 @@ Kebijakan ini memastikan keamanan tetap optimal tanpa mengorbankan fairness bagi
 
 ---
 
-Tentu! Di bawah ini adalah dokumen **Root Cause Analysis (RCA) formal** berdasarkan seluruh diskusi Anda tentang pengelolaan device risk pada aplikasi mobile banking, keterbatasan integrasi Threatcast, proses identifikasi Top 20 Device, dan penerapan Risk Acceptance Criteria (RAC).
-Struktur dan wording siap dipakai untuk audit, IT Risk, maupun pelaporan manajemen.
-
 ---
 
 # **ROOT CAUSE ANALYSIS (RCA) – Pengelolaan Device Risk pada Aplikasi Mobile Banking**
