@@ -191,11 +191,3 @@ sequenceDiagram
 * [Google Play Integrity API](https://developer.android.com/google/play/integrity)
 
 ---
-
-## Lisensi
-
-```
-Copyright (c) 2025
-
-Izin diberikan secara gratis kepada siapa saja yang memperoleh salinan dokumen ini untuk menggunakan, menyalin, memodifikasi, menggabungkan, menerbitkan, mendistribusikan, atau menjual salinan dokumen ini, dengan syarat keterangan hak cipta dan izin ini tetap dicantumkan.
-```
