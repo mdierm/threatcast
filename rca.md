@@ -327,7 +327,7 @@ Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RAS
 ---
 
 ### **Mermaid Sequence Diagram – Disesuaikan**
-
+```
 sequenceDiagram
     participant User as User
     participant App as Aplikasi wondr
@@ -342,7 +342,7 @@ sequenceDiagram
     Threatcast->>Backend: Kirim flag status risiko
     Backend->>App: Instruksi blokir/logout/warning\natau allow akses normal
     App->>User: Tampilkan notifikasi\ndevice action/edukasi
-
+```
 ## ⚠️ Keterbatasan & Implikasi
 
 * **Device\_id Tidak Persisten Hardware:**
