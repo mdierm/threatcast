@@ -116,13 +116,13 @@ RAC ini menjadi acuan utama dalam pengelolaan device risk di aplikasi wondr by B
 Kebijakan ini memastikan keamanan tetap optimal tanpa mengorbankan fairness bagi pengguna, dengan monitoring proaktif terhadap device-device berisiko tertinggi.
 
 
-# **ROOT CAUSE ANALYSIS (RCA) – Pengelolaan Device Risk pada Aplikasi Mobile Banking**
+# **ROOT CAUSE ANALYSIS (RCA) – Pengelolaan Device Risk pada Aplikasi Mobile wondr By BNI**
 
 ---
 
 ## **1. Latar Belakang**
 
-Perangkat mobile yang digunakan nasabah berperan penting dalam keamanan aplikasi mobile banking. Ancaman seperti root, custom ROM, bootloader unlocked, dan masalah sertifikat digital (certificate chain revoked/invalid) terbukti meningkatkan risiko fraud, bypass, dan kompromi data.
+Perangkat mobile yang digunakan nasabah berperan penting dalam keamanan aplikasi mobile wondr By BNI. Ancaman seperti root, custom ROM, bootloader unlocked, dan masalah sertifikat digital (certificate chain revoked/invalid) terbukti meningkatkan risiko fraud, bypass, dan kompromi data.
 Bank telah menerapkan monitoring menggunakan dashboard Threatcast dan RAC (Risk Acceptance Criteria), namun masih ditemukan sejumlah kendala dalam proses deteksi dan mitigasi device risk.
 
 ---
@@ -189,12 +189,12 @@ Bank telah menerapkan monitoring menggunakan dashboard Threatcast dan RAC (Risk 
 
 ## **5. Kesimpulan dan Tindak Lanjut**
 
-Pengelolaan device risk pada aplikasi mobile banking saat ini sudah memiliki fondasi yang baik (berbasis RAC per individu), namun **masih terkendala oleh keterbatasan integrasi data antara Threatcast dan aplikasi/FDS**.
+Pengelolaan device risk pada aplikasi mobile wondr By BNI saat ini sudah memiliki fondasi yang baik (berbasis RAC per individu), namun **masih terkendala oleh keterbatasan integrasi data antara Threatcast dan aplikasi/FDS**.
 **Solusi utama adalah membangun integrasi data otomatis dan memperkuat proses review, audit, serta appeal,** agar risk management device lebih proaktif, efisien, dan akuntabel.
 
 ---
 
-# Rekomendasi Arsitektur Keamanan Mobile Banking
+# Rekomendasi Arsitektur Keamanan Mobile wondr By BNI
 
 **Integrasi Dua Arah Threatcast dengan Enforcement Otomatis**
 
@@ -202,7 +202,7 @@ Pengelolaan device risk pada aplikasi mobile banking saat ini sudah memiliki fon
 
 ## 📄 Ringkasan Eksekutif
 
-Aplikasi mobile banking menghadapi tantangan besar terkait keamanan perangkat, khususnya pada platform Android. Berbagai teknik bypass root, modifikasi perangkat, dan custom ROM dapat mengancam keamanan dan meningkatkan risiko fraud. Saat ini, solusi monitoring seperti Guardsquare Threatcast cenderung bersifat satu arah—hanya memantau tanpa enforcement otomatis yang terintegrasi dengan backend aplikasi.
+Aplikasi mobile wondr By BNI menghadapi tantangan besar terkait keamanan perangkat, khususnya pada platform Android. Berbagai teknik bypass root, modifikasi perangkat, dan custom ROM dapat mengancam keamanan dan meningkatkan risiko fraud. Saat ini, solusi monitoring seperti Guardsquare Threatcast cenderung bersifat satu arah—hanya memantau tanpa enforcement otomatis yang terintegrasi dengan backend aplikasi.
 Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RASP, backend, dan Threatcast saling terhubung serta mampu menanggulangi ancaman secara otomatis, persisten, dan auditable.
 
 ---
