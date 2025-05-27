@@ -193,52 +193,6 @@ Pengelolaan device risk pada aplikasi mobile wondr By BNI saat ini sudah memilik
 
 ---
 
-# Rekomendasi Arsitektur Keamanan Mobile Banking – Integrasi Threatcast dan Backend wondr By BNI
-
----
-
-## 📄 Ringkasan Eksekutif
-
-Aplikasi mobile banking wondr by BNI menghadapi tantangan signifikan dalam pengelolaan risiko perangkat, terutama di ekosistem Android. Saat ini, monitoring keamanan dilakukan melalui integrasi dengan Guardsquare Threatcast, namun hanya sebatas pengiriman data device\_id dari aplikasi wondr ke Threatcast secara satu arah. Tidak terdapat umpan balik (feedback loop) dari Threatcast ke backend wondr mengenai status flag atau risiko perangkat. Selain itu, device\_id yang digunakan pada aplikasi wondr dan Threatcast adalah hasil generate saat instalasi aplikasi, **bukan hardware ID**, sehingga bisa berubah jika aplikasi dihapus dan dipasang ulang pada perangkat yang sama.
-
----
-
-## 🔎 Latar Belakang & Permasalahan
-
-### **Permasalahan Utama**
-
-* **UUID/device\_id Konsisten tapi Tidak Persisten Hardware:**
-  UUID di Guardsquare (Threatcast) identik dengan device\_id pada backend wondr, sehingga memudahkan cross-check dan integrasi. Namun, ID ini **dibentuk saat aplikasi diinstal**, bukan merepresentasikan perangkat fisik. Jika aplikasi dihapus lalu diinstal ulang, device\_id berubah meski pada device yang sama.
-* **Komunikasi Satu Arah (One-Way):**
-  Saat ini, aplikasi wondr hanya mengirimkan device\_id beserta event deteksi keamanan ke Threatcast. **Tidak ada umpan balik** atau notifikasi status flag dari Threatcast ke backend wondr.
-* **Flag Risiko Tidak Persisten:**
-  Status perangkat berisiko (misal: root, custom ROM) hanya tercatat pada Threatcast. Tidak ada sinkronisasi otomatis ke backend atau penyimpanan status risiko secara permanen pada database backend wondr.
-* **Enforcement dan Monitoring Manual:**
-  Setiap investigasi device berisiko atau user bermasalah memerlukan pengecekan manual ke dashboard Threatcast, tanpa mekanisme otomatis di backend aplikasi.
-
----
-
-### **Keterbatasan Teknis**
-
-* **Tracking Risiko Tidak Konsisten:**
-  Karena device\_id berubah saat reinstall aplikasi, histori risiko tidak bisa melekat pada hardware tertentu secara konsisten.
-* **Tidak Ada Enforcement Otomatis:**
-  Aksi seperti blokir, logout, atau pembatasan fitur hanya bisa dilakukan secara manual setelah investigasi oleh tim IT Risk/Security.
-
----
-
-## 🎯 Tujuan & Sasaran
-
-* Meningkatkan integrasi dua arah antara Threatcast dan backend wondr, sehingga status flag risiko bisa diterima secara otomatis di backend.
-* Menyimpan status risiko perangkat secara persisten pada database backend untuk mendukung enforcement otomatis dan audit trail.
-* Mewujudkan risk management yang proaktif, real-time, dan tidak hanya mengandalkan intervensi manual.
-
----
-
-Tentu, berikut adalah versi **penyempurnaan laporan** dengan tambahan klarifikasi device\_id/UUID, status API dua arah, edukasi user, dan penjelasan audit trail, tanpa mengubah struktur inti laporan Anda:
-
----
-
 # Rekomendasi Arsitektur Keamanan Mobile wondr By BNI
 
 **Integrasi Dua Arah Threatcast dengan Enforcement Otomatis**
