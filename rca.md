@@ -343,8 +343,6 @@ sequenceDiagram
     Backend->>App: Instruksi blokir/logout/warning\natau allow akses normal
     App->>User: Tampilkan notifikasi\ndevice action/edukasi
 
----
-
 ## ⚠️ Keterbatasan & Implikasi
 
 * **Device\_id Tidak Persisten Hardware:**
