@@ -186,13 +186,6 @@ Bank telah menerapkan monitoring menggunakan dashboard Threatcast dan RAC (Risk 
 
 ---
 
-## **5. Kesimpulan dan Tindak Lanjut**
-
-Pengelolaan device risk pada aplikasi mobile wondr By BNI saat ini sudah memiliki fondasi yang baik (berbasis RAC per individu), namun **masih terkendala oleh keterbatasan integrasi data antara Threatcast dan aplikasi/FDS**.
-**Solusi utama adalah membangun integrasi data otomatis dan memperkuat proses review, audit, serta appeal,** agar risk management device lebih proaktif, efisien, dan akuntabel.
-
----
-
 # Rekomendasi Arsitektur Keamanan Mobile wondr By BNI
 
 **Integrasi Dua Arah Threatcast dengan Enforcement Otomatis**
