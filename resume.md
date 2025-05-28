@@ -1,28 +1,34 @@
+---
+
 ### **Resume Analisa dan Rekomendasi Perbaikan RASP Hardware**
 
-1. **Temuan Divisi ERM**
-   Divisi Enterprise Risk Management (ERM) menemukan adanya kelemahan pada deteksi root pada aplikasi Wondr versi 1.3.2.
-   Walaupun aplikasi telah dapat memblokir root tools seperti Magisk Kitsune, perangkat dengan KernelSU masih dapat melakukan root bypass tanpa terdeteksi oleh sistem keamanan saat ini.
+1. **Identifikasi Permasalahan oleh Divisi ERM**
 
-2. **Perhitungan dan Usulan Perbaikan RASP Hardware**
-   Hasil simulasi backdate Guardsquare/Threatcast terhadap traffic riil aplikasi menunjukkan:
+   * Divisi Enterprise Risk Management (ERM) melalui thematic review telah menemukan adanya kelemahan deteksi root pada aplikasi Wondr versi 1.3.2.
+   * Meskipun aplikasi telah mampu memblokir root tools seperti Magisk Kitsune, perangkat dengan KernelSU masih dapat melakukan root bypass tanpa terdeteksi sistem keamanan yang ada.
+   * Kondisi ini menimbulkan risiko fraud, potensi manipulasi data, serta penyalahgunaan fitur digital banking.
 
-   * User aktif harian rata-rata: 1.110.000
-   * Device high risk terdeteksi per hari: 6.479 (0,58% dari user aktif)
-   * Top 20 model device menyumbang 4.890 threat (72,7%)
-   * 607 model device lain menyumbang 1.833 threat (27,3%)
-     Data ini menegaskan pentingnya implementasi RASP Hardware untuk mendeteksi dan memblokir device high risk—including varian root tools terbaru—tanpa mengganggu >99% pengguna legitimate.
+2. **Analisa Data dan Justifikasi Perbaikan RASP Hardware**
 
-3. **Risk Acceptance Criteria (RAC) pada Top Device**
-   RAC difokuskan pada mitigasi fraud akibat perpindahan perangkat tidak wajar dan pada Top 20 model device berisiko tinggi.
+   * Berdasarkan hasil simulasi backdate yang dilakukan oleh Guardsquare/Threatcast, diperoleh data berikut:
 
-   * Device pada Top 20 yang terdeteksi risk (root/custom ROM/KernelSU) akan diblokir onboarding/akses secara otomatis.
-   * Appeal hanya dapat dilakukan melalui proses whitelist manual bagi user legitimate.
-   * RAC menggabungkan deteksi teknis (RASP Hardware), monitoring perilaku, dan proses audit.
+     * Rata-rata user aktif harian: 1.110.000 pengguna.
+     * Device high risk yang terdeteksi per hari: 6.479 perangkat (0,58% dari user aktif harian).
+     * Dari total 627 model device yang digunakan, Top 20 model device menyumbang 4.890 threat (72,7%), sedangkan 607 model lainnya hanya 1.833 threat (27,3%).
+   * Fakta tersebut menunjukkan bahwa meski proporsi perangkat berisiko sangat kecil dibandingkan total pengguna, konsentrasi ancaman sangat tinggi pada kelompok kecil device.
+   * Implementasi RASP Hardware dinilai krusial untuk mendeteksi dan melakukan pemblokiran otomatis terhadap perangkat berisiko tinggi (termasuk varian root tools terbaru) tanpa mengganggu kenyamanan mayoritas pengguna.
 
-4. **Solusi Jangka Panjang: Integrasi Dua Arah Threatcast dan Enforcement Otomatis**
-   Direkomendasikan pengembangan arsitektur keamanan dua arah, di mana event ancaman dari aplikasi atau RASP secara otomatis memicu enforcement pada backend,
-   status risiko perangkat/pengguna disimpan secara permanen,
-   dan Threatcast berperan sebagai command center aktif yang dapat men-trigger tindakan mitigasi real-time.
-   Arsitektur ini memastikan setiap ancaman ditangani otomatis, persisten, dan dapat diaudit—menjamin keamanan aplikasi, kepatuhan, serta akselerasi inovasi digital banking BNI.
+3. **Risk Acceptance Criteria (RAC) untuk Top Device**
 
+   * Risk Acceptance Criteria (RAC) difokuskan pada pencegahan fraud akibat perpindahan perangkat berulang dan mitigasi pada Top 20 perangkat paling berisiko.
+   * Setiap perangkat dalam kelompok Top 20 yang terdeteksi sebagai risk (root/custom ROM/KernelSU) akan secara otomatis diblokir pada proses onboarding dan akses fitur kritikal, dengan peluang appeal melalui whitelist manual bagi user legitimate.
+   * RAC mengintegrasikan deteksi teknis melalui RASP Hardware, monitoring perilaku pengguna, serta pencatatan audit untuk memastikan efektivitas kontrol risiko.
+
+4. **Solusi Jangka Panjang: Arsitektur Dua Arah Threatcast & Enforcement Otomatis**
+
+   * Direkomendasikan implementasi arsitektur keamanan dua arah, di mana aplikasi, backend, dan Threatcast saling terintegrasi secara real-time.
+   * Setiap event ancaman yang terdeteksi oleh aplikasi atau RASP akan langsung memicu enforcement otomatis (pemblokiran, force logout, atau pembatasan akses) pada backend, dan status risiko perangkat atau pengguna akan tersimpan secara persist di database.
+   * Threatcast akan berperan sebagai command center aktif yang dapat meng-update status risiko dan men-trigger tindakan mitigasi secara real-time melalui integrasi API backend.
+   * Dengan skema ini, seluruh proses pengendalian risiko menjadi otomatis, berkelanjutan, dan dapat diaudit secara transparan sehingga mendukung keamanan, kepatuhan, serta inovasi layanan digital banking BNI.
+
+---
