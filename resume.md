@@ -4,7 +4,7 @@
 
    * Divisi Enterprise Risk Management (ERM) melalui thematic review telah menemukan adanya kelemahan deteksi root pada aplikasi Wondr versi 1.3.2.
    * Meskipun aplikasi telah mampu memblokir root tools seperti Magisk Kitsune, perangkat dengan KernelSU masih dapat melakukan root bypass tanpa terdeteksi sistem keamanan yang ada.
-   * Kondisi ini menimbulkan risiko fraud, potensi manipulasi data, serta penyalahgunaan fitur digital banking.
+   * Kondisi ini menimbulkan risiko fraud, potensi manipulasi data (deepfake), serta penyalahgunaan fitur digital banking.
 
 2. **Analisa Data dan Justifikasi Perbaikan RASP Hardware**
 
