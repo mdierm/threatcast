@@ -39,3 +39,65 @@ Keduanya sama-sama penting:
 * **Unique device** (4.890) untuk strategi mitigasi yang efektif (berapa device harus benar-benar diblokir).
 
 ---
+
+### **Tabel Perbandingan Risk Event vs Unique Device (Top 20 Device)**
+
+| No  | Model Device       | Total Risk Event (Grand Total) | Unique Device (Unique ID) |
+| --- | ------------------ | ------------------------------ | ------------------------- |
+| 1   | Vivo vivo 1906     | 4.512                          | (misal) 700               |
+| 2   | Infinix HOT 9 Play | 4.386                          | (misal) 690               |
+| 3   | Infinix HOT 10     | 3.185                          | (misal) 500               |
+| 4   | Vivo vivo 1920     | 2.804                          | (misal) 430               |
+| ... | ...                | ...                            | ...                       |
+| 20  | Xiaomi Redmi 6A    | 591                            | (misal) 90                |
+|     | **TOTAL**          | **32.347**                     | **4.890**                 |
+
+> **Catatan:** Kolom “Unique Device” adalah contoh ilustrasi. Angka persisnya diperoleh dari data monitoring berbasis `app_user_id` unik.
+
+---
+
+### **Penjelasan Visual (Diagram Sederhana)**
+
+```
++-------------------+-----------------------------+---------------------------+
+|     Device        |    Total Risk Event         |    Unique Device          |
++-------------------+-----------------------------+---------------------------+
+|  Model A          |     4.512                   |    700                    |
+|  Model B          |     4.386                   |    690                    |
+|  ...              |     ...                     |    ...                    |
+|  Model T          |     591                     |    90                     |
++-------------------+-----------------------------+---------------------------+
+|     TOTAL         |    32.347                   |   4.890                   |
++-------------------+-----------------------------+---------------------------+
+```
+
+* **Total Risk Event:** Akumulasi semua kejadian risk (satu device bisa muncul berkali-kali).
+* **Unique Device:** Setiap device hanya dihitung satu kali walaupun terjadi risk event berulang.
+
+---
+
+### **Visualisasi Pie Chart (Proporsi Unique Device vs Event)**
+
+```mermaid
+pie
+    title Proporsi Top 20 Device
+    "Risk Event (Total)" : 32347
+    "Unique Device" : 4890
+```
+
+---
+
+### **Interpretasi**
+
+* **Total Risk Event** lebih besar karena satu device bisa memicu banyak risk event (misal: login berulang, root tetap, flag hari berbeda).
+* **Unique Device** jauh lebih kecil—ini adalah perangkat aktual yang perlu di-blacklist atau dimitigasi.
+
+---
+
+#### **Kesimpulan**
+
+* **Mitigasi berbasis unique device** (4.890) akan sangat efisien dan targeted:
+  Fokuskan pada pemblokiran perangkat unik, bukan hanya merespon setiap risk event.
+* **Total risk event** (32.347) memberi gambaran beban/potensi serangan yang harus dihadapi sistem monitoring dan audit.
+
+---
