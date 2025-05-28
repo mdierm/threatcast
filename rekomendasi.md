@@ -51,3 +51,29 @@ pie
 > **Solusi ini menutup risiko fraud device secara efektif tanpa mengorbankan kenyamanan user maupun akselerasi bisnis digital.**
 
 ---
+### **Efektivitas Perbaikan RASP Hardware: Data & Implikasi Bisnis**
+
+---
+
+* **User aktif harian:** 1.110.000
+* **Device high risk (root/custom ROM/Top 20 model):** 6.479 per hari (**0,58% dari user aktif**)
+* **Distribusi threat sangat terkonsentrasi:**
+
+  * **73% device high risk hanya berasal dari 20 model device (3,2% dari 627 tipe device user)**
+  * **607 model device lain (96,8%) hanya menyumbang 27% threat device**
+* **Implementasi RASP Hardware:**
+
+  * **Semua device high risk otomatis diblokir pada onboarding dan akses fitur sensitif**
+  * **99%+ user legitimate tetap onboarding, login, dan transaksi tanpa hambatan**
+  * **Fraud dan loss finansial turun signifikan; pengalaman user tetap optimal**
+* **Kesimpulan eksekutif:**
+
+  * **Kebijakan sangat targeted dan evidence-based, dampaknya sangat kecil ke mayoritas user**
+  * **Perbaikan RASP Hardware sangat layak segera dijalankan demi keamanan, compliance, dan pertumbuhan bisnis digital**
+
+---
+
+> **Solusi ini menutup risiko fraud device secara efektif tanpa mengorbankan kenyamanan user maupun pertumbuhan bisnis.**
+
+---
+
