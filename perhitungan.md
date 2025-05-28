@@ -123,7 +123,6 @@ flowchart TD
     J -- Ya --> K[Allow onboarding\nBackend alert/monitor lanjut]
     J -- Tidak --> L[Lanjut proses (diperbolehkan)]
 ```
-
 ---
 
 ## 5. Narasi Kebijakan
