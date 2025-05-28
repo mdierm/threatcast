@@ -1,7 +1,3 @@
-Penjelasan **perhitungan dan perbedaan angka 32.347 vs 4.890** adalah sebagai berikut:
-
----
-
 ### **1. 32.347 = Jumlah Total Risk Event pada Top 20 Device**
 
 * **32.347** adalah **jumlah seluruh kejadian risk event** (semua flag yang terdeteksi, baik pada device yang sama berulang kali maupun pada device berbeda) yang tercatat pada **20 model device teratas** selama periode monitoring.
@@ -43,5 +39,3 @@ Keduanya sama-sama penting:
 * **Unique device** (4.890) untuk strategi mitigasi yang efektif (berapa device harus benar-benar diblokir).
 
 ---
-
-Jika butuh contoh tabel atau breakdown visual dari perhitungan ini, silakan minta!
