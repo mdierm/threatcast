@@ -1,102 +1,110 @@
-# Risk Acceptance Criteria (RAC) – Pencegahan Fraud Ganti Device & RASP Hardware
+---
 
-**Aplikasi Wondr by BNI**
+# 📋 **Tabel Risk Acceptance Criteria (RAC) Validasi Device Wondr**
+
+| Skenario                                             | Tingkat Risiko | Penjelasan                                       | Kebijakan / Policy                              | Monitoring/Audit |
+| ---------------------------------------------------- | -------------- | ------------------------------------------------ | ----------------------------------------------- | ---------------- |
+| Device **tidak ganti**, model bukan Top 20           | Low            | Device user tetap, bukan model rawan fraud       | Lanjut onboarding/transaksi                     | Monitor rutin    |
+| Ganti device ≤2x/24 jam, model bukan Top 20          | Low            | Device berganti wajar, model tidak rawan         | Lanjut onboarding/transaksi                     | Monitor rutin    |
+| Ganti device ≤2x/24 jam, **model masuk Top 20**      | High           | Model terbukti sering fraud (Top 20 Threatcast)  | Block onboarding/akses, appeal manual whitelist | Audit intensif   |
+| Ganti device >2x/24 jam                              | High           | Device sering berganti dalam waktu singkat       | Block onboarding/akses, audit trail             | Audit intensif   |
+| Ganti device ≤2x/24 jam, model bukan Top 20, anomali | Medium         | Device aman, tapi deteksi pola/geolokasi anomali | Allow onboarding, backend alert                 | Monitor khusus   |
 
 ---
 
-## 1. Tabel Risk Acceptance Criteria
+# 🔄 **Deskripsi Alur Langkah Validasi**
 
-| Skenario                                             | Tingkat Risiko | Penjelasan                                     | Kebijakan / Policy                              | Monitoring/Audit |
-| ---------------------------------------------------- | -------------- | ---------------------------------------------- | ----------------------------------------------- | ---------------- |
-| Device **tidak ganti**, model bukan Top 20           | Low            | Aman, tidak masuk high risk & tidak anomali    | Lanjut onboarding/transaksi                     | Monitor rutin    |
-| Ganti device ≤2x/24 jam, model bukan Top 20          | Low            | Device berganti wajar, model tidak rawan       | Lanjut onboarding/transaksi                     | Monitor rutin    |
-| Ganti device ≤2x/24 jam, **model masuk Top 20**      | High           | Model terbukti sering fraud, sesuai Threatcast | Block onboarding/akses, appeal manual whitelist | Audit intensif   |
-| Ganti device >2x/24 jam                              | High           | Ganti device berlebihan                        | Block onboarding/akses, audit trail             | Audit intensif   |
-| Ganti device ≤2x/24 jam, model bukan Top 20, anomali | Medium         | Device aman, ada pola/geolokasi anomali        | Allow onboarding, backend alert                 | Monitor khusus   |
+1. **User melakukan onboarding atau transaksi di aplikasi.**
+2. **Cek: Apakah device sama dengan sebelumnya?**
 
----
+   * **Jika tidak ganti device:**
 
-## **Alur Langkah Validasi Device**
+     * Cek apakah model device termasuk Top 20 risk?
 
-1. **User melakukan onboarding/transaksi.**
-2. **Cek apakah device yang digunakan sama dengan sebelumnya (device tidak ganti atau ganti):**
+       * **Tidak:**
+         ➔ **Low Risk** → Lanjut onboarding/transaksi (monitor rutin)
+       * **Ya:**
+         *(Opsional, flag High Risk/alert khusus untuk risk aversion maksimal)*
+   * **Jika ganti device:**
 
-   * **Tidak ganti:**
+     * Hitung jumlah ganti device dalam 24 jam terakhir.
 
-     * Cek apakah model device **masuk Top 20** risk?
+       * **Jika >2x/24 jam:**
+         ➔ **High Risk** → Block onboarding/akses (audit intensif, audit trail)
+       * **Jika ≤2x/24 jam:**
 
-       * **Tidak masuk:**
-         → **Low Risk**
-         → Lanjut onboarding/transaksi (**monitor rutin**)
-       * **Masuk:**
-         (kasus ini tidak ada di tabel, asumsikan tidak terjadi, atau bisa diberi notasi khusus)
-   * **Ganti device:**
+         * Cek apakah model device termasuk Top 20 risk?
 
-     * Hitung jumlah ganti device dalam **24 jam terakhir**
-     * Jika **>2x**:
-       → **High Risk**
-       → **Block** onboarding/akses (**audit intensif**)
-     * Jika **≤2x**:
+           * **Ya:**
+             ➔ **High Risk** → Block onboarding/akses, appeal manual whitelist (audit intensif)
+           * **Tidak:**
 
-       * Cek apakah **model device masuk Top 20** risk?
+             * Cek anomali behavior (geo, fingerprint, pola transaksi)
 
-         * **Masuk:**
-           → **High Risk**
-           → **Block** onboarding/akses, appeal manual whitelist (**audit intensif**)
-         * **Tidak masuk:**
-
-           * Cek **apakah ada anomali behavior** (geo, pola transaksi, dsb)
-
-             * **Ada anomali:**
-               → **Medium Risk**
-               → Allow onboarding, backend alert (**monitor khusus**)
-             * **Tidak ada anomali:**
-               → **Low Risk**
-               → Lanjut onboarding/transaksi (**monitor rutin**)
+               * **Ada anomali:**
+                 ➔ **Medium Risk** → Allow onboarding, backend alert (monitor khusus)
+               * **Tidak ada anomali:**
+                 ➔ **Low Risk** → Lanjut onboarding/transaksi (monitor rutin)
 
 ---
 
-## **Flow Diagram (Mermaid)**
+# 🗺️ **Flow Diagram (Mermaid)**
 
 ```mermaid
 flowchart TD
-    A([Mulai: User onboarding/transaksi])
-    A --> B{Device sama dengan sebelumnya?}
-    B -- Yes --> C{Model device masuk Top 20 risk?}
-    C -- No --> D[Low Risk: Lanjut onboarding/transaksi (Monitor rutin)]
-    C -- Yes --> Z[Tambahan: (Kasus ini tidak ada di tabel, bisa flag High Risk)]
-    B -- No --> E[Hitung ganti device dalam 24 jam]
-    E --> F{Ganti device >2x/24 jam?}
-    F -- Yes --> G[High Risk: Block onboarding/akses (Audit intensif)]
-    F -- No --> H{Model device masuk Top 20 risk?}
-    H -- Yes --> I[High Risk: Block onboarding/akses, appeal manual whitelist (Audit intensif)]
-    H -- No --> J{Ada anomali behavior?}
-    J -- Yes --> K[Medium Risk: Allow onboarding, backend alert (Monitor khusus)]
-    J -- No --> L[Low Risk: Lanjut onboarding/transaksi (Monitor rutin)]
+    START([User onboarding/transaksi])
+    START --> D1{Device sama sebelumnya?}
+    D1 -- Yes --> D2{Model device masuk Top 20 risk?}
+    D2 -- No --> OK1[Low Risk:\nLanjut onboarding/transaksi\n(Monitor rutin)]
+    D2 -- Yes --> HR1[High Risk:\nFlag alert khusus (Opsional)]
+    D1 -- No --> D3[Hitung ganti device dalam 24 jam]
+    D3 --> D4{Ganti device >2x/24 jam?}
+    D4 -- Yes --> HR2[High Risk:\nBlock onboarding/akses\n(Audit intensif)]
+    D4 -- No --> D5{Model device masuk Top 20 risk?}
+    D5 -- Yes --> HR3[High Risk:\nBlock onboarding/akses, appeal manual whitelist\n(Audit intensif)]
+    D5 -- No --> D6{Ada anomali behavior?}
+    D6 -- Yes --> MR1[Medium Risk:\nAllow onboarding, backend alert\n(Monitor khusus)]
+    D6 -- No --> OK2[Low Risk:\nLanjut onboarding/transaksi\n(Monitor rutin)]
 ```
 
-### **Penjelasan Flow**
+---
+
+# ✍️ **Narasi Ringkas & Penjelasan Setiap Jalur**
 
 * **Low Risk:**
-  User menggunakan device yang sama atau ganti device ≤2x/24 jam, model device bukan Top 20, dan tidak ada anomali.
+
+  * Device tidak ganti **dan** bukan model Top 20 risk
+  * Device ganti ≤2x/24 jam **dan** bukan model Top 20 risk **dan** tidak ada anomali
+    → **Aksi:** lanjut onboarding/transaksi, monitoring rutin.
+
 * **Medium Risk:**
-  Device tidak masuk Top 20, ganti device ≤2x/24 jam, **tapi** terdeteksi anomali behavior (misal: geolokasi tidak biasa, pola transaksi janggal).
+
+  * Device ganti ≤2x/24 jam, bukan model Top 20 risk, **tapi** ada anomali behavior
+    → **Aksi:** onboarding/transaksi diizinkan, backend alert, monitoring lebih ketat.
+
 * **High Risk:**
 
-  * Device model masuk Top 20 risk (berdasarkan Threatcast dataset) meski baru ≤2x ganti device.
-  * Atau, ganti device sudah >2x dalam 24 jam (indikasi abuse/fraud).
-  * Di kedua skenario, onboarding/akses **diblock** dan harus melalui appeal/manual review.
+  * Device ganti >2x/24 jam
+  * Device ganti ≤2x/24 jam, **tapi** model device masuk Top 20 risk
+  * *(Opsional: device tidak ganti, model device Top 20 risk)*
+    → **Aksi:** block onboarding/akses, audit intensif, appeal manual whitelist jika applicable.
 
 ---
 
-## 4. Narasi Kebijakan
+# 🚦 **Tabel Reaksi Kebijakan**
 
-* **Blokir otomatis** berlaku untuk perilaku ganti device berlebihan atau device high risk (Top 20/flag RASP).
-* **User legitimate** tetap bisa akses aplikasi tanpa hambatan berarti, appeal hanya untuk device valid (manual).
-* Semua proses tercatat sebagai audit trail untuk compliance dan investigasi.
+| Tingkat Risiko | Aksi Sistem                         | Audit/Monitoring       | Contoh Notifikasi                 |
+| -------------- | ----------------------------------- | ---------------------- | --------------------------------- |
+| Low            | Lanjut onboarding/transaksi         | Monitor rutin          | -                                 |
+| Medium         | Allow onboarding, backend alert     | Monitor khusus         | "Device anomali"                  |
+| High           | Block onboarding/akses, audit trail | Audit intensif, manual | "Access blocked, contact support" |
 
 ---
 
-> **RAC ini menjamin multilayered defense untuk fraud prevention pada onboarding dan akses aplikasi Wondr.**
+# 💡 **Catatan Implementasi**
+
+* Dataset **Top 20 risk** diupdate manual dari Threatcast, disimpan di backend Wondr.
+* Proses audit dan monitoring harus terekam jelas untuk compliance.
+* Flow siap diotomasi via backend rule engine maupun dijadikan dasar SOP manual.
 
 ---
