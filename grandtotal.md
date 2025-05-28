@@ -101,3 +101,36 @@ pie
 * **Total risk event** (32.347) memberi gambaran beban/potensi serangan yang harus dihadapi sistem monitoring dan audit.
 
 ---
+
+### **Analogi: Bioskop & Penonton**
+
+**Bayangkan Anda mengelola sebuah bioskop dengan 20 kursi VIP (Top 20 device).**
+
+#### **Total Risk Event (32.347):**
+
+* Selama satu bulan, kursi VIP tersebut diduduki penonton yang sama **berulang kali**—beberapa penonton duduk di kursi yang sama setiap hari, atau bahkan beberapa kali dalam sehari.
+* Setiap kali kursi VIP tersebut diduduki, **dicatat sebagai satu event** (seperti risk event pada device).
+* Akumulasi semua "duduk di kursi VIP" selama satu bulan = **32.347 kali**.
+
+#### **Unique Device (4.890):**
+
+* Namun, jika Anda hitung **berapa orang berbeda** yang benar-benar pernah duduk di kursi VIP itu selama sebulan, jumlahnya hanya **4.890 orang** (meskipun mereka bisa saja duduk berulang kali).
+* Setiap penonton yang berbeda hanya dihitung **satu kali**, tidak peduli berapa kali mereka kembali.
+
+---
+
+**Kesimpulan Analogi:**
+
+* **Total risk event** (32.347) = berapa kali kursi VIP diduduki selama periode tertentu (frekuensi kejadian).
+* **Unique device** (4.890) = berapa banyak penonton berbeda yang pernah duduk di kursi VIP selama periode tersebut (jumlah individu).
+
+---
+
+#### **Implikasi Mitigasi:**
+
+* Jika Anda ingin membuat bioskop lebih aman, **cukup fokus pada daftar 4.890 penonton “berisiko”**—bukan harus memeriksa semua 32.347 kejadian duduk di kursi.
+* **Efisiensi:** Mengelola daftar nama lebih sedikit, tetapi tetap mengatasi mayoritas masalah kursi VIP yang berisiko.
+
+---
+
+**Dengan analogi ini, board akan memahami bahwa pemblokiran atau mitigasi berbasis unique device jauh lebih efisien daripada hanya bereaksi pada setiap event—karena satu device bisa memicu banyak event.**
