@@ -64,6 +64,9 @@ flowchart TD
     D6 -- Ya --> MR1[Medium Risk:\nAllow onboarding,\nbackend alert\n(Monitor khusus)]
     D6 -- Tidak --> OK2[Low Risk:\nLanjut onboarding/transaksi\n(Monitor rutin)]
 
+```
+
+---
 
 # ✍️ **Narasi Ringkas & Penjelasan Setiap Jalur**
 
@@ -103,4 +106,3 @@ flowchart TD
 * Proses audit dan monitoring harus terekam jelas untuk compliance.
 * Flow siap diotomasi via backend rule engine maupun dijadikan dasar SOP manual.
 
----
