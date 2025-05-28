@@ -155,4 +155,5 @@ sequenceDiagram
 **Pustaka:**
 
 * [Formulasi Risk Acceptance Criteria](rac_top_20.md)
-* 
+* [Resume](resume.md)
+* [Rekomendasi RASP Hardware](strategi_penyampaian.md)
