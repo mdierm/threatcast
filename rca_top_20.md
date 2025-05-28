@@ -47,7 +47,7 @@
 ---
 
 # 🗺️ **Flow Diagram (Mermaid)**
----
+
 ```mermaid
 flowchart TD
     START([Mulai: User onboarding/transaksi])
@@ -63,7 +63,6 @@ flowchart TD
     D5 -- Tidak --> D6{Ada anomali behavior?}
     D6 -- Ya --> MR1[Medium Risk:\nAllow onboarding,\nbackend alert\n(Monitor khusus)]
     D6 -- Tidak --> OK2[Low Risk:\nLanjut onboarding/transaksi\n(Monitor rutin)]
-
 ```
 
 ---
