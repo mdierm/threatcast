@@ -68,3 +68,11 @@ pie
 * **Kebijakan evidence-based, sangat layak segera dijalankan demi keamanan, reputasi, dan pertumbuhan bisnis digital.**
 
 ---
+
+**Catatan Data & Validasi Simulasi**
+
+Seluruh perhitungan, distribusi, dan analisa threat di atas **berasal dari hasil simulasi backdate** yang dilakukan oleh Guardsquare/Threatcast pada sistem Wondr by BNI.
+Data ini **menggambarkan skenario nyata** jika RASP Hardware diimplementasikan pada traffic dan populasi user riil aplikasi,
+sehingga **setiap insight, proporsi, dan rekomendasi kebijakan yang ditampilkan sudah berbasis evidence monitoring aktual, bukan asumsi**.
+
+---
