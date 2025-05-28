@@ -108,7 +108,7 @@ Implementasi keamanan aplikasi Wondr by BNI menggunakan dua lapis mitigasi utama
 
 ## 4. Flowchart RAC (Mermaid)
 
-```mermaid
+```
 flowchart TD
     A([User mulai onboarding / login / transaksi])
     A --> B{Device sama seperti sebelumnya?}
@@ -117,13 +117,15 @@ flowchart TD
     D --> E{Ganti device > 2x / 24 jam?}
     E -- Ya --> F[Block akses/transaksi (Decline)]
     E -- Tidak --> G[RASP Hardware Attestation]
-    G --> H{Device Top 20 risk / flag kritikal?}
-    H -- Ya --> I[Block onboarding/akses\nTampilkan pesan blokir]
+    G --> H{Device Top 20 risk atau flag kritikal?}
+    H -- Ya --> I[Block onboarding/akses dan tampilkan pesan blokir]
     H -- Tidak --> J{Ada anomali lain?}
-    J -- Ya --> K[Allow onboarding\nBackend alert/monitor lanjut]
+    J -- Ya --> K[Allow onboarding dan backend alert/monitor lanjut]
     J -- Tidak --> L[Lanjut proses (diperbolehkan)]
 
 ```
+
+---
 
 ## 5. Narasi Kebijakan
 
