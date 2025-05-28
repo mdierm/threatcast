@@ -48,6 +48,7 @@
 
 # 🗺️ **Flow Diagram (Mermaid)**
 
+```mermaid
 flowchart TD
     START([User onboarding/transaksi])
     START --> D1{Device sama?}
@@ -63,7 +64,7 @@ flowchart TD
     D6 -- Yes --> MR1[Medium Risk: Alert]
     D6 -- No --> OK2[Low Risk: Lanjut]
 
----
+```
 
 # ✍️ **Narasi Ringkas & Penjelasan Setiap Jalur**
 
