@@ -6,13 +6,13 @@
 
 ## 1. Tabel Risk Acceptance Criteria
 
-| Skenario                                            | Tingkat Risiko           | Kebijakan / Policy                              | Monitoring     |
-| --------------------------------------------------- | ------------------------ | ----------------------------------------------- | -------------- |
-| Tidak ganti device                                  | Acceptable               | Lanjut onboarding/transaksi                     | Monitor        |
-| Ganti device ≤2x/24 jam & device lolos RASP         | Acceptable               | Lanjut onboarding/transaksi                     | Monitor        |
-| Ganti device ≤2x/24 jam & device high risk (Top 20) | Unacceptable             | Block onboarding/akses, appeal manual whitelist | Audit intensif |
-| Ganti device >2x/24 jam                             | Unacceptable             | Block onboarding/akses, audit trail             | Audit intensif |
-| Ganti device ≤2x/24 jam, device non-risk, anomali   | Conditionally Acceptable | Allow onboarding, backend alert                 | Monitor lanjut |
+| Skenario                                             | Tingkat Risiko | Penjelasan                                     | Kebijakan / Policy                              | Monitoring/Audit |
+| ---------------------------------------------------- | -------------- | ---------------------------------------------- | ----------------------------------------------- | ---------------- |
+| Device **tidak ganti**, model bukan Top 20           | Low            | Aman, tidak masuk high risk & tidak anomali    | Lanjut onboarding/transaksi                     | Monitor rutin    |
+| Ganti device ≤2x/24 jam, model bukan Top 20          | Low            | Device berganti wajar, model tidak rawan       | Lanjut onboarding/transaksi                     | Monitor rutin    |
+| Ganti device ≤2x/24 jam, **model masuk Top 20**      | High           | Model terbukti sering fraud, sesuai Threatcast | Block onboarding/akses, appeal manual whitelist | Audit intensif   |
+| Ganti device >2x/24 jam                              | High           | Ganti device berlebihan                        | Block onboarding/akses, audit trail             | Audit intensif   |
+| Ganti device ≤2x/24 jam, model bukan Top 20, anomali | Medium         | Device aman, ada pola/geolokasi anomali        | Allow onboarding, backend alert                 | Monitor khusus   |
 
 ---
 
