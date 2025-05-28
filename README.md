@@ -151,3 +151,8 @@ sequenceDiagram
 * [ISO/IEC 27001:2013 – Information Security Management](https://www.iso.org/isoiec-27001-information-security.html)
 
 ---
+
+**Pustaka:**
+
+* [Formulasi Risk Acceptance Criteria](rac_top_20.md)
+* 
