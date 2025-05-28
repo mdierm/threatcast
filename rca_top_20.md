@@ -43,11 +43,7 @@
 
 ## 3. Flow Diagram (Gambar Visual & Mermaid)
 
-### **Versi Gambar (PNG/SVG)**
-
-Jika markdown Anda **tidak support Mermaid**, gunakan diagram visual seperti ini (bisa digambar manual di Lucidchart, draw\.io, atau tools lain):
-
-```mermaid
+```
 flowchart TD
     Start([User onboarding/login/transaksi])
     Start --> Cek{Device sama seperti sebelumnya?}
@@ -63,8 +59,6 @@ flowchart TD
     Anomali -- Tidak --> Allow[Lanjut onboarding/transaksi]
 
 ```
-
----
 
 ## 4. Narasi Kebijakan
 
