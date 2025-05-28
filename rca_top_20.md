@@ -48,29 +48,20 @@
 Jika markdown Anda **tidak support Mermaid**, gunakan diagram visual seperti ini (bisa digambar manual di Lucidchart, draw\.io, atau tools lain):
 
 ```
-[User onboarding/login/transaksi]
-            |
-    Device sama?
-    /         \
-  Ya           Tidak
-  |             |
-[Lanjut]  Update counter ganti device (24 jam)
-                |
-   Ganti device >2x/24 jam?
-      /                \
-    Ya                  Tidak
-    |                    |
- [Block]      RASP Hardware Attestation
-                          |
-            Device Top 20 risk/flag kritikal?
-                  /             \
-                Ya               Tidak
-                |                  |
-             [Block]       Ada anomali lain?
-                                /      \
-                              Ya        Tidak
-                              |           |
-                       [Allow+Alert]   [Allow]
+flowchart TD
+    Start([User onboarding/login/transaksi])
+    Start --> Cek{Device sama seperti sebelumnya?}
+    Cek -- Ya --> Lanjut[Lanjut onboarding/transaksi]
+    Cek -- Tidak --> Cnt[Update counter ganti device (24 jam)]
+    Cnt --> MoreThan2{Ganti device >2x/24 jam?}
+    MoreThan2 -- Ya --> Block1[Block akses/transaksi]
+    MoreThan2 -- Tidak --> RASP[RASP Hardware Attestation]
+    RASP --> Risky{Device Top 20 risk/flag kritikal?}
+    Risky -- Ya --> Block2[Block onboarding/akses\nAppeal manual]
+    Risky -- Tidak --> Anomali{Ada anomali lain?}
+    Anomali -- Ya --> Alert[Allow onboarding + backend alert]
+    Anomali -- Tidak --> Allow[Lanjut onboarding/transaksi]
+
 ```
 
 ---
@@ -91,6 +82,7 @@ flowchart TD
     Risky -- Tidak --> Anomali{Ada anomali lain?}
     Anomali -- Ya --> Alert[Allow onboarding + backend alert]
     Anomali -- Tidak --> Allow[Lanjut onboarding/transaksi]
+
 ```
 
 ---
