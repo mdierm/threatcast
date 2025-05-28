@@ -50,22 +50,20 @@
 
 ```mermaid
 flowchart TD
-    START([User onboarding/transaksi])
+    START([Mulai: User onboarding/transaksi])
     START --> D1{Device sama sebelumnya?}
-    D1 -- Yes --> D2{Model device masuk Top 20 risk?}
-    D2 -- No --> OK1[Low Risk:\nLanjut onboarding/transaksi\n(Monitor rutin)]
-    D2 -- Yes --> HR1[High Risk:\nFlag alert khusus (Opsional)]
-    D1 -- No --> D3[Hitung ganti device dalam 24 jam]
+    D1 -- Ya --> D2{Model device masuk Top 20 risk?}
+    D2 -- Tidak --> OK1[Low Risk:<br/>Lanjut onboarding/transaksi<br/>(Monitor rutin)]
+    D2 -- Ya --> HR1[High Risk (Opsional):<br/>Flag alert khusus]
+    D1 -- Tidak --> D3[Hitung ganti device dalam 24 jam]
     D3 --> D4{Ganti device >2x/24 jam?}
-    D4 -- Yes --> HR2[High Risk:\nBlock onboarding/akses\n(Audit intensif)]
-    D4 -- No --> D5{Model device masuk Top 20 risk?}
-    D5 -- Yes --> HR3[High Risk:\nBlock onboarding/akses, appeal manual whitelist\n(Audit intensif)]
-    D5 -- No --> D6{Ada anomali behavior?}
-    D6 -- Yes --> MR1[Medium Risk:\nAllow onboarding, backend alert\n(Monitor khusus)]
-    D6 -- No --> OK2[Low Risk:\nLanjut onboarding/transaksi\n(Monitor rutin)]
+    D4 -- Ya --> HR2[High Risk:<br/>Block onboarding/akses<br/>(Audit intensif)]
+    D4 -- Tidak --> D5{Model device masuk Top 20 risk?}
+    D5 -- Ya --> HR3[High Risk:<br/>Block onboarding/akses,<br/>appeal manual whitelist<br/>(Audit intensif)]
+    D5 -- Tidak --> D6{Ada anomali behavior?}
+    D6 -- Ya --> MR1[Medium Risk:<br/>Allow onboarding,<br/>backend alert<br/>(Monitor khusus)]
+    D6 -- Tidak --> OK2[Low Risk:<br/>Lanjut onboarding/transaksi<br/>(Monitor rutin)]
 ```
-
----
 
 # ✍️ **Narasi Ringkas & Penjelasan Setiap Jalur**
 
