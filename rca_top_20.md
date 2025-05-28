@@ -16,50 +16,80 @@
 
 ---
 
-## 2. Penjelasan Alur Langkah
+## **Alur Langkah Validasi Device**
 
-1. **User mulai onboarding, login, atau transaksi.**
-2. **Cek apakah device sama seperti sebelumnya:**
+1. **User melakukan onboarding/transaksi.**
+2. **Cek apakah device yang digunakan sama dengan sebelumnya (device tidak ganti atau ganti):**
 
-   * Jika **tidak ganti device** → proses lanjut (**Acceptable**)
-   * Jika **ganti device** → update counter jumlah ganti device (24 jam)
-3. **Jika ganti device >2x dalam 24 jam:**
+   * **Tidak ganti:**
 
-   * **Block akses/transaksi** (**Unacceptable**)
-4. **Jika ganti device ≤2x/24 jam:**
+     * Cek apakah model device **masuk Top 20** risk?
 
-   * **Lakukan RASP Hardware Attestation:**
+       * **Tidak masuk:**
+         → **Low Risk**
+         → Lanjut onboarding/transaksi (**monitor rutin**)
+       * **Masuk:**
+         (kasus ini tidak ada di tabel, asumsikan tidak terjadi, atau bisa diberi notasi khusus)
+   * **Ganti device:**
 
-     * Jika **device termasuk Top 20 risk / flag kritikal**:
-       **Block onboarding/akses, appeal hanya manual** (**Unacceptable**)
-     * Jika **device lolos RASP**:
+     * Hitung jumlah ganti device dalam **24 jam terakhir**
+     * Jika **>2x**:
+       → **High Risk**
+       → **Block** onboarding/akses (**audit intensif**)
+     * Jika **≤2x**:
 
-       * **Cek anomali lain** (geo, pola transaksi, dll):
+       * Cek apakah **model device masuk Top 20** risk?
 
-         * Jika **ada anomali** → allow onboarding + backend alert (**Conditionally Acceptable**)
-         * Jika **tidak ada anomali** → allow onboarding (**Acceptable**)
+         * **Masuk:**
+           → **High Risk**
+           → **Block** onboarding/akses, appeal manual whitelist (**audit intensif**)
+         * **Tidak masuk:**
+
+           * Cek **apakah ada anomali behavior** (geo, pola transaksi, dsb)
+
+             * **Ada anomali:**
+               → **Medium Risk**
+               → Allow onboarding, backend alert (**monitor khusus**)
+             * **Tidak ada anomali:**
+               → **Low Risk**
+               → Lanjut onboarding/transaksi (**monitor rutin**)
 
 ---
 
-## 3. Flow Diagram (Gambar Visual & Mermaid)
+## **Flow Diagram (Mermaid)**
 
 ```mermaid
 flowchart TD
-    START([User onboarding/login/transaksi])
-    START --> DEV{Device sama?}
-    DEV -- Yes --> OK1[Lanjut proses]
-    DEV -- No --> CNT[Update counter ganti device]
-    CNT --> CHK{Ganti device lebih 2x 24 jam?}
-    CHK -- Yes --> BLOCK1[Block akses/transaksi]
-    CHK -- No --> RASP[RASP Attestation]
-    RASP --> FLAG{Top 20 risk/flag?}
-    FLAG -- Yes --> BLOCK2[Block onboarding, appeal manual]
-    FLAG -- No --> ANOM{Anomali lain?}
-    ANOM -- Yes --> ALERT[Allow onboarding, backend alert]
-    ANOM -- No --> OK2[Lanjut proses]
-
-
+    A([Mulai: User onboarding/transaksi])
+    A --> B{Device sama dengan sebelumnya?}
+    B -- Yes --> C{Model device masuk Top 20 risk?}
+    C -- No --> D[Low Risk: Lanjut onboarding/transaksi (Monitor rutin)]
+    C -- Yes --> Z[Tambahan: (Kasus ini tidak ada di tabel, bisa flag High Risk)]
+    B -- No --> E[Hitung ganti device dalam 24 jam]
+    E --> F{Ganti device >2x/24 jam?}
+    F -- Yes --> G[High Risk: Block onboarding/akses (Audit intensif)]
+    F -- No --> H{Model device masuk Top 20 risk?}
+    H -- Yes --> I[High Risk: Block onboarding/akses, appeal manual whitelist (Audit intensif)]
+    H -- No --> J{Ada anomali behavior?}
+    J -- Yes --> K[Medium Risk: Allow onboarding, backend alert (Monitor khusus)]
+    J -- No --> L[Low Risk: Lanjut onboarding/transaksi (Monitor rutin)]
 ```
+
+---
+
+### **Penjelasan Flow**
+
+* **Low Risk:**
+  User menggunakan device yang sama atau ganti device ≤2x/24 jam, model device bukan Top 20, dan tidak ada anomali.
+* **Medium Risk:**
+  Device tidak masuk Top 20, ganti device ≤2x/24 jam, **tapi** terdeteksi anomali behavior (misal: geolokasi tidak biasa, pola transaksi janggal).
+* **High Risk:**
+
+  * Device model masuk Top 20 risk (berdasarkan Threatcast dataset) meski baru ≤2x ganti device.
+  * Atau, ganti device sudah >2x dalam 24 jam (indikasi abuse/fraud).
+  * Di kedua skenario, onboarding/akses **diblock** dan harus melalui appeal/manual review.
+
+---
 
 ## 4. Narasi Kebijakan
 
