@@ -108,7 +108,7 @@ Implementasi keamanan aplikasi Wondr by BNI menggunakan dua lapis mitigasi utama
 
 ## 4. Flowchart RAC (Mermaid)
 
-```
+```mermaid
 flowchart TD
     A([User mulai onboarding / login / transaksi])
     A --> B{Device sama seperti sebelumnya?}
