@@ -26,4 +26,3 @@
    dan Threatcast berperan sebagai command center aktif yang dapat men-trigger tindakan mitigasi real-time.
    Arsitektur ini memastikan setiap ancaman ditangani otomatis, persisten, dan dapat diaudit—menjamin keamanan aplikasi, kepatuhan, serta akselerasi inovasi digital banking BNI.
 
----
