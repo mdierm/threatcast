@@ -1,90 +1,81 @@
-# Laporan Analisa Efektivitas Perbaikan RASP Hardware
-_Aplikasi Wondr by BNI – Mei 2025_
+Tentu! Berikut adalah **laporan analisa perbaikan RASP Hardware** yang runut:
+
+1. Menjelaskan perbandingan jumlah active user dan jumlah threat
+2. Mengkerucutkan threat ke Top 20 device (dengan data)
+3. Menyajikan data dan visualisasinya secara komprehensif
+   Cocok untuk laporan resmi, board, atau upload ke GitHub.
 
 ---
 
-## 1. Latar Belakang & Tujuan Analisa
+---
 
-Aplikasi Wondr by BNI menghadapi tantangan fraud device berbahaya (root, custom ROM, dan device modifikasi) yang dapat mem-bypass kontrol keamanan.  
-Perbaikan melalui implementasi RASP Hardware bertujuan untuk menurunkan risiko fraud, meningkatkan kepercayaan, dan menjaga pertumbuhan digital banking secara berkelanjutan.
+# Laporan Analisa Perbaikan RASP Hardware
+
+Aplikasi Wondr by BNI
 
 ---
 
-## 2. Data Utama Hasil Monitoring
+## 1. Perbandingan Jumlah Active User dan Jumlah Threat
 
-| Data                                 | Nilai                   |
-|---------------------------------------|-------------------------|
-| **User aktif harian**                 | 1.110.000               |
-| **Device high risk per hari**         | 6.479 (0,58%)           |
-| **Top 20 model device high risk**     | 4.890 (73%)             |
-| **607 model device lain**             | 1.833 (27%)             |
-| **Total model device**                | 627                     |
+* **User aktif harian aplikasi Wondr:** 1.110.000 user per hari
+* **Device high risk (threat) terdeteksi per hari:** 6.479 device
+* **Persentase threat:**
 
----
-
-## 3. Perhitungan Distribusi Threat
-
-- **Persentase device high risk:**  
-  \[
+  $$
   \frac{6.479}{1.110.000} \times 100\% \approx 0,58\%
-  \]
-- **Kontribusi Top 20 model:**  
-  \[
-  \frac{4.890}{6.723} \times 100\% \approx 73\%
-  \]
-- **Kontribusi 607 model lain:**  
-  \[
-  \frac{1.833}{6.723} \times 100\% \approx 27\%
-  \]
+  $$
+* **Interpretasi:**
+  Hanya **0,58% dari seluruh user aktif harian** yang terdeteksi sebagai device high risk (root, custom ROM, dsb).
+  Dengan kata lain, **lebih dari 99% user legitimate tidak terdampak** oleh kebijakan enforcement ini.
 
 ---
 
-## 4. Visualisasi Distribusi Threat
+### **Diagram Perbandingan Active User vs Device High Risk**
 
 ```mermaid
 pie
-    title Distribusi Device High Risk
-    "Top 20 High Risk Device (73%)" : 4890
-    "607 Device Lain (27%)" : 1833
-````
+    title User Aktif vs Device High Risk (Per Hari)
+    "User Aktif (99,42%)" : 1100000
+    "Device High Risk (0,58%)" : 6479
+```
 
 ---
 
-## 5. Analisa & Implikasi Bisnis
+## 2. Distribusi Threat yang Mengkerucut ke Top 20 Device
 
-* **Distribusi threat sangat terkonsentrasi:**
+* **Total device high risk unik selama periode monitoring:** 6.723 device
+* **Total model device digunakan user:** 627 model
+* **Threat pada Top 20 model device:** 4.890 device (**72,7% dari total threat**)
+* **Threat pada 607 model device lain:** 1.833 device (**27,3% dari total threat**)
+* **Proporsi model:**
 
-  * 73% device high risk hanya berasal dari 20 model device (3,2% dari total model)
-  * 607 model lain (96,8%) hanya menyumbang 27% threat device
-* **Implementasi RASP Hardware:**
-
-  * Semua device high risk otomatis diblokir pada onboarding dan akses fitur sensitif
-  * 99%+ user legitimate tetap onboarding, login, dan transaksi tanpa hambatan
-  * Fraud dan loss finansial turun signifikan, pengalaman user tetap optimal
-
----
-
-## 6. Kesiapan & Strategi Penanganan False Positive
-
-* Disediakan **mekanisme appeal dan manual whitelist** bagi user legitimate yang terdampak agar tetap bisa difasilitasi cepat.
-* **Tim CS dan risk** siap melakukan verifikasi manual dan edukasi agar risk policy tidak merugikan user loyal.
-* Monitoring false positive secara periodik untuk evaluasi policy berkelanjutan.
+  * **Top 20 model = 3,2% dari total model device**
+  * **607 model lainnya = 96,8% dari total model device**
 
 ---
 
-## 7. Korelasi dengan Digital Growth & Inovasi
+### **Diagram Distribusi Threat (Top 20 Device vs Lainnya)**
 
-* **User experience mayoritas tetap terjaga:** Enforcement risk device tidak menghambat pertumbuhan user baru maupun adopsi fitur digital.
-* **Kebijakan ini mendukung inovasi digital banking yang aman dan berkelanjutan,** serta menjadi nilai tambah dalam promosi keamanan aplikasi ke nasabah.
-* **Risiko stagnasi growth dan retensi user sangat minimal.**
+```mermaid
+pie
+    title Distribusi Device High Risk Berdasarkan Model
+    "Top 20 Device (72,7%)" : 4890
+    "607 Device Lain (27,3%)" : 1833
+```
 
 ---
 
-## 8. Kesimpulan Eksekutif
+## 3. Kesimpulan Analisa
 
-* **Jumlah device high risk sangat kecil dibandingkan populasi user harian, namun berkontribusi besar pada risiko fraud digital.**
-* **Kebijakan sangat targeted dan evidence-based, dampaknya sangat kecil ke mayoritas user.**
-* **Perbaikan RASP Hardware sangat layak segera dijalankan demi keamanan, compliance, akselerasi digital growth, dan keberlanjutan bisnis.**
-* **Solusi ini menutup risiko fraud device secara efektif tanpa mengorbankan kenyamanan user maupun inovasi bisnis.**
+* **Device high risk sangat kecil dibanding populasi user:**
+  Hanya 0,58% dari user aktif harian yang terdeteksi threat.
+* **Threat sangat terkonsentrasi pada kelompok kecil device:**
+  73% threat hanya dari 20 model device (3,2% dari total model).
+* **Implementasi RASP Hardware sangat targeted:**
+
+  * Semua device high risk otomatis diblokir onboarding/akses sensitif
+  * 99%+ user legitimate tetap onboarding, login, transaksi tanpa hambatan
+  * Fraud dan loss finansial turun signifikan; compliance dan trust meningkat
+* **Kebijakan evidence-based, sangat layak segera dijalankan demi keamanan, reputasi, dan pertumbuhan bisnis digital.**
 
 ---
