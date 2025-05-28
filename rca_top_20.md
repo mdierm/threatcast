@@ -45,18 +45,19 @@
 
 ```mermaid
 flowchart TD
-    Start([User onboarding/login/transaksi])
-    Start --> Cek{Device sama seperti sebelumnya?}
-    Cek -- Ya --> Lanjut[Lanjut onboarding/transaksi]
-    Cek -- Tidak --> Cnt[Update counter ganti device (24 jam)]
-    Cnt --> MoreThan2{Ganti device >2x/24 jam?}
-    MoreThan2 -- Ya --> Block1[Block akses/transaksi]
-    MoreThan2 -- Tidak --> RASP[RASP Hardware Attestation]
-    RASP --> Risky{Device Top 20 risk/flag kritikal?}
-    Risky -- Ya --> Block2[Block onboarding/akses\nAppeal manual]
-    Risky -- Tidak --> Anomali{Ada anomali lain?}
-    Anomali -- Ya --> Alert[Allow onboarding + backend alert]
-    Anomali -- Tidak --> Allow[Lanjut onboarding/transaksi]
+    START([User onboarding/login/transaksi])
+    START --> DEV{Device sama?}
+    DEV -- Yes --> OK1[Lanjut proses]
+    DEV -- No --> CNT[Update counter ganti device]
+    CNT --> CHK{Ganti device lebih 2x 24 jam?}
+    CHK -- Yes --> BLOCK1[Block akses/transaksi]
+    CHK -- No --> RASP[RASP Attestation]
+    RASP --> FLAG{Top 20 risk/flag?}
+    FLAG -- Yes --> BLOCK2[Block onboarding, appeal manual]
+    FLAG -- No --> ANOM{Anomali lain?}
+    ANOM -- Yes --> ALERT[Allow onboarding, backend alert]
+    ANOM -- No --> OK2[Lanjut proses]
+
 
 ```
 
