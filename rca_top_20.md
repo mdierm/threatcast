@@ -1,5 +1,3 @@
----
-
 # 📋 **Tabel Risk Acceptance Criteria (RAC) Validasi Device Wondr**
 
 | Skenario                                             | Tingkat Risiko | Penjelasan                                       | Kebijakan / Policy                              | Monitoring/Audit |
