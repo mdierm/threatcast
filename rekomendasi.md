@@ -1,14 +1,3 @@
-Tentu! Berikut adalah **laporan analisa perbaikan RASP Hardware** yang runut:
-
-1. Menjelaskan perbandingan jumlah active user dan jumlah threat
-2. Mengkerucutkan threat ke Top 20 device (dengan data)
-3. Menyajikan data dan visualisasinya secara komprehensif
-   Cocok untuk laporan resmi, board, atau upload ke GitHub.
-
----
-
----
-
 # Laporan Analisa Perbaikan RASP Hardware
 
 Aplikasi Wondr by BNI
