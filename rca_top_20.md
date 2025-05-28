@@ -48,23 +48,20 @@
 
 # 🗺️ **Flow Diagram (Mermaid)**
 
-```mermaid
 flowchart TD
-    START([Mulai: User onboarding/transaksi])
+    START([User onboarding/transaksi])
     START --> D1{Device sama?}
-    D1 -- Ya --> D2{Model Top 20 risk?}
-    D2 -- Tidak --> OK1[Low Risk\nLanjut onboarding/transaksi\n(Monitor rutin)]
-    D2 -- Ya --> HR1[High Risk\nFlag alert khusus]
-    D1 -- Tidak --> D3[Hitung ganti device\n24 jam]
+    D1 -- Ya --> D2{Model Top 20?}
+    D2 -- No --> OK1[Low Risk: Lanjut]
+    D2 -- Yes --> HR1[High Risk: Alert]
+    D1 -- Tidak --> D3[Hitung ganti device]
     D3 --> D4{Ganti >2x?}
-    D4 -- Ya --> HR2[High Risk\nBlock onboarding/akses\n(Audit intensif)]
-    D4 -- Tidak --> D5{Model Top 20 risk?}
-    D5 -- Ya --> HR3[High Risk\nBlock onboarding/akses\nAppeal manual\n(Audit intensif)]
-    D5 -- Tidak --> D6{Anomali behavior?}
-    D6 -- Ya --> MR1[Medium Risk\nAllow onboarding\nBackend alert\n(Monitor khusus)]
-    D6 -- Tidak --> OK2[Low Risk\nLanjut onboarding/transaksi\n(Monitor rutin)]
-
-```
+    D4 -- Yes --> HR2[High Risk: Block]
+    D4 -- No --> D5{Model Top 20?}
+    D5 -- Yes --> HR3[High Risk: Block+Manual]
+    D5 -- No --> D6{Anomali?}
+    D6 -- Yes --> MR1[Medium Risk: Alert]
+    D6 -- No --> OK2[Low Risk: Lanjut]
 
 ---
 
