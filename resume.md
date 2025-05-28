@@ -1,5 +1,3 @@
----
-
 ### **Resume Analisa dan Rekomendasi Perbaikan RASP Hardware**
 
 1. **Identifikasi Permasalahan oleh Divisi ERM**
