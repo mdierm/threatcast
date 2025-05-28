@@ -64,7 +64,7 @@ pie
 
   * Semua device high risk otomatis diblokir onboarding/akses sensitif
   * 99%+ user legitimate tetap onboarding, login, transaksi tanpa hambatan
-  * Fraud dan loss finansial turun signifikan; compliance dan trust meningkat
+  * RASP Hardware dapat melakukan mitigasi pada ancaman Kernel SU 
 * **Kebijakan evidence-based, sangat layak segera dijalankan demi keamanan, reputasi, dan pertumbuhan bisnis digital.**
 
 ---
