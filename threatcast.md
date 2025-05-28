@@ -1,4 +1,4 @@
-# Rekomendasi Arsitektur Keamanan Mobile Banking
+# Rekomendasi Arsitektur Keamanan Mobile wondr By BNI
 
 **Integrasi Dua Arah Threatcast dengan Enforcement Otomatis**
 
@@ -6,8 +6,8 @@
 
 ## 📄 Ringkasan Eksekutif
 
-Aplikasi mobile banking menghadapi tantangan besar terkait keamanan perangkat, khususnya pada platform Android. Berbagai teknik bypass root, modifikasi perangkat, dan custom ROM dapat mengancam keamanan dan meningkatkan risiko fraud. Saat ini, solusi monitoring seperti Guardsquare Threatcast cenderung bersifat satu arah—hanya memantau tanpa enforcement otomatis yang terintegrasi dengan backend aplikasi.
-Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RASP, backend, dan Threatcast saling terhubung serta mampu menanggulangi ancaman secara otomatis, persisten, dan auditable.
+Aplikasi mobile wondr by BNI menghadapi tantangan besar pada keamanan perangkat, khususnya di ekosistem Android. Berbagai teknik bypass root, modifikasi perangkat, dan custom ROM dapat meningkatkan risiko fraud. Saat ini, solusi monitoring seperti Guardsquare Threatcast masih bersifat satu arah—aplikasi hanya mengirim event ke Threatcast, tanpa ada umpan balik otomatis ke backend aplikasi.
+Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RASP, backend, dan Threatcast saling terhubung dan mampu menanggulangi ancaman secara otomatis, persisten, dan auditable.
 
 ---
 
@@ -16,32 +16,22 @@ Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RAS
 ### **Permasalahan yang Ditemukan**
 
 * **Monitoring Satu Arah (One-Way Monitoring):**
-  Aplikasi hanya mengirimkan data perangkat dan event keamanan ke RASP serta Threatcast untuk monitoring. Tidak ada tindakan aktif atau intervensi otomatis dari backend, kecuali pada kasus khusus.
+  Aplikasi hanya mengirim data perangkat dan event keamanan ke RASP/Threatcast untuk monitoring. Tidak ada tindakan aktif atau intervensi otomatis dari backend, kecuali kasus khusus (root/Magisk).
 
-* **Flag Risiko Tidak Konsisten dan Tidak Persisten:**
-  Ancaman seperti penggunaan **custom ROM, kernel tidak resmi, atau firmware termodifikasi** hanya tercatat sebagai log pada Threatcast, tanpa penandaan status perangkat atau pengguna secara permanen di database backend.
-  Untuk perangkat dengan **Magisk** (root framework), aplikasi telah diprogram untuk **langsung melakukan crash (force close)** saat deteksi Magisk aktif, sehingga enforcement berjalan instan.
-  Namun, untuk perangkat dengan **custom ROM atau kernel modifikasi**, aplikasi tetap berjalan normal walaupun perangkat berisiko—tidak ada pemblokiran otomatis maupun pembatasan fitur.
+* **Flag Risiko Tidak Persisten dan Tidak Konsisten:**
+  Ancaman seperti custom ROM, kernel tidak resmi, atau firmware termodifikasi hanya tercatat di Threatcast tanpa penandaan status perangkat di backend aplikasi secara permanen.
+  Untuk perangkat dengan Magisk (root), aplikasi langsung crash, namun untuk custom ROM, aplikasi tetap berjalan tanpa enforcement otomatis.
 
-* **Tidak Ada Feedback Loop atau Enforcement Otomatis untuk Custom ROM dan Kernel Modifikasi:**
-  Pengguna pada perangkat dengan custom ROM, firmware tidak asli, atau kernel termodifikasi tetap dapat mengakses fitur aplikasi, karena **tidak ada enforcement otomatis dari backend**.
-  **Feedback loop dan enforcement hanya efektif pada kasus root Magisk**, sedangkan untuk custom ROM atau ancaman lain, sistem hanya mencatat log tanpa tindakan nyata.
-
----
-
-### **Risiko yang Dihadapi**
-
-* Penyerang dapat mengelabui sistem dengan melakukan reinstall aplikasi atau menggunakan custom ROM/kernel tanpa terdeteksi sebagai ancaman oleh backend.
-* Perangkat berisiko tetap dapat mengakses fitur sensitif aplikasi, meningkatkan risiko fraud, pengambilalihan akun, dan kebocoran data.
-* Tidak terdapat respon otomatis maupun real-time terhadap ancaman yang muncul selain pada kasus deteksi Magisk.
+* **Tidak Ada Feedback Loop Otomatis:**
+  Enforcement otomatis dari backend hanya dapat terjadi jika ada integrasi API dua arah dengan Threatcast. Saat ini, backend hanya bisa melakukan blokir/aksi setelah pengecekan manual di Threatcast.
 
 ---
 
 ## 🎯 Tujuan & Sasaran
 
-* Menghadirkan pengelolaan risiko perangkat/pengguna yang otomatis dan persisten pada setiap sesi aplikasi.
-* Menerapkan arsitektur dua arah, di mana Threatcast tidak hanya menerima event, tetapi juga dapat melakukan enforcement (blokir, limitasi, otentikasi ulang) melalui backend dan aplikasi.
-* Menjamin setiap event keamanan dapat memicu remediasi secara real-time, otomatis, dan tercatat untuk audit.
+* Menciptakan pengelolaan risiko perangkat/pengguna yang otomatis dan persisten pada setiap sesi aplikasi.
+* Menjamin setiap event keamanan dapat memicu remediasi secara real-time, otomatis, dan tercatat untuk audit serta compliance.
+* Memastikan edukasi dan transparansi kepada pengguna yang terkena enforcement.
 
 ---
 
@@ -49,145 +39,115 @@ Dokumen ini merekomendasikan arsitektur keamanan dua arah, di mana aplikasi, RAS
 
 ### **Komponen Utama**
 
-* **Aplikasi Mobile**
+* **Aplikasi Mobile wondr**
 
-  * Integrasi RASP SDK (misal: Guardsquare)
-  * Deteksi ancaman lokal (root, custom ROM, emulator, firmware tidak asli)
-  * Attestation perangkat (contoh: Play Integrity API)
-  * Komunikasi API aman (TLS, certificate pinning)
-  * Menerima instruksi keamanan (force logout, blokir, notifikasi) dari backend
+  * Integrasi RASP SDK (Guardsquare) untuk deteksi root, custom ROM, emulator, firmware tidak asli.
+  * Attestation perangkat (Play Integrity API).
+  * Komunikasi API aman (TLS, certificate pinning).
+  * Menerima instruksi keamanan dari backend (blokir, force logout, notifikasi).
+  * Notifikasi real-time (FCM/APNS).
+  * Edukasi user: Pesan blokir/log out jelas, disertai petunjuk solusi.
 
 * **Backend API**
 
-  * Menerima event keamanan dari app/RASP
-  * Menyimpan status risiko perangkat/pengguna secara persisten di database
-  * Enforcement otomatis (blokir, limitasi fitur, force logout)
-  * Endpoint API untuk update status risiko oleh Threatcast
-  * Meneruskan log/event keamanan ke Threatcast untuk audit
+  * Menerima event keamanan dari aplikasi/RASP.
+  * Menyimpan status risiko perangkat/user di database (`device_id`, `user_id`, `risk_status`, `flag_reason`, `updated_at`).
+  * Enforcement otomatis sesuai Risk Acceptance Criteria (RAC).
+  * Endpoint API untuk sinkronisasi flag risiko dengan Threatcast (dua arah; *saat ini dalam perencanaan/roadmap*).
+  * Audit trail seluruh aksi dan update status, minimal disimpan selama 6 bulan untuk keperluan investigasi/regulator.
 
-* **Threatcast / Sistem Monitoring**
+* **Threatcast (Guardsquare)**
 
-  * Pusat event keamanan, audit log, dan analitik
-  * Analis keamanan dapat melakukan flag, blokir, atau trigger tindakan risiko
-  * Integrasi API dengan backend untuk enforcement secara real-time
-
-* **Database**
-
-  * Menyimpan status perangkat/pengguna, contoh kolom:
-
-    * `device_id`, `user_id`, `risk_status`, `flag_reason`, `updated_at`
+  * Pusat event keamanan, audit log, dan analitik perangkat.
+  * API dua arah (ke depan/roadmap) untuk mengirimkan status flag ke backend wondr.
+  * Dashboard monitoring dan investigasi manual oleh tim IT Risk/Security.
 
 ---
 
-## 🔗 Alur Kerja Sistem (Flow dan Mermaid Diagram)
+### **Catatan Device\_ID/UUID**
 
-### **Deskripsi Alur Kerja**
-
-1. **Startup/Login Aplikasi:**
-   Aplikasi menjalankan RASP SDK untuk deteksi ancaman dan attestation perangkat.
-2. **Jika Ancaman Terdeteksi:**
-   RASP mengirimkan event ke backend API (berisi device/user/threat type).
-3. **Backend Processing:**
-   Backend mengupdate status perangkat/pengguna di database (`flagged`, `blocked`), dan log event ke Threatcast.
-4. **Enforcement & Feedback:**
-
-   * Setiap request aplikasi, backend cek status perangkat/pengguna.
-   * Jika status flagged: backend mengirim response (blokir, force logout, warning) ke aplikasi.
-   * Backend dapat mengirim notifikasi real-time untuk event kritikal.
-5. **Threatcast sebagai Command Center:**
-   Analis atau rule otomatis dapat mengupdate status risiko ke backend via API dan men-trigger enforcement real-time.
+> **Device\_id/UUID yang digunakan di wondr dan Threatcast identik, namun terbentuk pada saat instalasi aplikasi (application-scoped), bukan berbasis hardware. Jika user melakukan reinstall aplikasi, device\_id baru akan terbentuk sehingga tracking risiko tidak persisten terhadap perangkat fisik yang sama.**
 
 ---
 
-### **Mermaid Sequence Diagram**
+## 🔗 Alur Kerja Sistem (Flow & Diagram)
+
+### **Narasi Alur**
+
+1. **User install aplikasi wondr**; proses instalasi men-trigger RASP SDK (Guardsquare).
+2. **RASP SDK mendeteksi event ancaman** (root, custom ROM, dsb.).
+3. **Event RASP otomatis dikirim ke Threatcast Dashboard** sebagai pusat monitoring.
+4. **(Ideal, future-proof): Threatcast mengirimkan flag status risiko** (device\_id/UUID flagged) ke backend wondr melalui API dua arah.
+5. **Backend memproses flag device\_id/UUID**, mencocokkan dengan database:
+
+   * Jika device\_id/UUID terflag, backend **melakukan blokir, force logout, atau limitasi fitur**.
+   * User mendapatkan notifikasi real-time, disertai edukasi dan petunjuk jika devicenya terblokir.
+
+---
+
+## Mermaid Sequence Diagram – Disesuaikan
 
 ```mermaid
 sequenceDiagram
-    participant App as Aplikasi Mobile
-    participant RASP as RASP SDK (Guardsquare)
-    participant Backend as Backend API
-    participant DB as Device/User DB
-    participant Threatcast as Threatcast Dashboard
+    participant User as User
+    participant App as AplikasiWondr
+    participant RASP as RASP_SDK
+    participant Threatcast as ThreatcastDashboard
+    participant Backend as BackendAPI
 
-    App->>RASP: Kirim deviceID, userID, event trigger
-    RASP->>RASP: Deteksi ancaman lokal (root, custom ROM, kernel, firmware, emulator)
-    alt Ancaman terdeteksi
-        RASP->>Backend: Kirim event ancaman (deviceID, userID, threat_type)
-        Backend->>DB: Update status (flagged/blocked)
-        Backend->>Threatcast: Forward event (audit/log)
-        Backend-->>App: Pada request berikutnya, response blokir/logout/warning
-        Backend-->>App: (Opsional) Push notifikasi event kritikal
-    else Tidak ada ancaman
-        RASP-->>App: Aplikasi berjalan normal
-    end
-    App->>Backend: Request (login/transaksi)
-    Backend->>DB: Cek status perangkat/pengguna
-    alt Status flagged/blocked
-        Backend-->>App: Response blokir/logout/warning
-    else Status normal
-        Backend-->>App: Success, transaksi diproses
-    end
+    User->>App: Install aplikasi wondr
+    App->>RASP: Trigger RASP SDK, generate device_id, deteksi ancaman
+    RASP->>Threatcast: Kirim event & device_id
+    RASP->>Backend: Kirim event & device_id
+    Threatcast->>Backend: Kirim flag status risiko (API dua arah)
+    Backend->>App: Kirim instruksi enforcement (blokir/logout/warning/allow)
+    App->>User: Notifikasi tindakan ke user
 ```
 
----
+## ⚠️ Keterbatasan & Implikasi
 
-## 🛡️ Rekomendasi Implementasi Teknis
+* **Device\_id Tidak Persisten Hardware:**
+  Tidak dapat melakukan tracking risiko secara akurat jika user reinstall aplikasi, karena device\_id baru akan terbentuk.
 
-### **Backend & Database**
+* **Enforcement Manual (Jika API dua arah belum diterapkan):**
+  Backend hanya bisa melakukan blokir/aksi setelah pengecekan manual di Threatcast.
 
-* Tambahkan kolom seperti `risk_status` dan `flag_reason` pada tabel perangkat/pengguna.
-* Implementasi endpoint untuk menerima event ancaman serta update/query status risiko.
-* Terapkan logic enforcement otomatis jika status perangkat/pengguna berisiko.
+* **Audit Trail Terbatas:**
+  Histori status risiko perangkat tidak selalu tersedia di backend kecuali sudah terintegrasi penuh.
 
-### **Aplikasi**
-
-* Tambahkan logic untuk menerima dan memproses instruksi blokir/logout/warning dari backend.
-* Dukungan notifikasi real-time (contoh: FCM/APNS).
-
-### **Integrasi Threatcast**
-
-* Threatcast/analyst dapat mengupdate status risiko melalui API ke backend.
-* Dashboard Threatcast menampilkan status perangkat/pengguna secara real-time.
-
-### **Otomatisasi & Audit**
-
-* Otomasi pemblokiran/session termination berdasarkan sinyal risiko secara real-time.
-* Semua aksi tercatat dalam audit log untuk kebutuhan compliance dan forensik.
+* **Edukasi User Penting:**
+  Pastikan pesan blokir atau force logout dilengkapi edukasi dan petunjuk bagi user, untuk menghindari kebingungan atau false report ke CS.
 
 ---
 
-## ⚙️ Contoh Skema Tabel Perangkat/Pengguna
+## 🚀 Manfaat Arsitektur (Jika Integrasi 2 Arah Diterapkan)
 
-| device\_id     | user\_id | risk\_status | flag\_reason  | updated\_at         |
-| -------------- | -------- | ------------ | ------------- | ------------------- |
-| ca6f4e37-98... | 555a7f   | flagged      | root detected | 2025-05-27 10:25:00 |
-| f42da7b1-28... | 881c3c   | normal       | -             | 2025-05-27 11:00:00 |
-| 69ab8de3-29... | 222ee8   | blocked      | custom ROM    | 2025-05-27 12:15:00 |
-
----
-
-## 🚀 Manfaat Arsitektur Ini
-
-* **Perlindungan Otomatis:** Perangkat dan pengguna berisiko langsung diblokir atau dibatasi tanpa intervensi manual.
-* **Status Risiko Persisten & Dapat Diaudit:** Semua status risiko dan enforcement selalu up-to-date serta tercatat dalam audit log.
-* **Respon Real-Time:** Ancaman tidak hanya dimonitor, tetapi langsung direspon secara otomatis.
-* **Feedback ke Pengguna:** Pengguna mendapat notifikasi langsung jika perangkat atau sesi aplikasi dianggap berisiko.
-* **Pengelolaan Keamanan Terpusat:** Threatcast berfungsi sebagai command center aktif, bukan sekadar dashboard pasif.
+* **Enforcement Otomatis:**
+  Risiko perangkat dapat langsung diblokir/ditindak tanpa menunggu pengecekan manual.
+* **Status Risiko Persisten & Dapat Diaudit:**
+  Semua status risiko dan enforcement tercatat di backend.
+* **Respon Real-Time:**
+  Ancaman langsung mendapat respon tanpa delay manual.
+* **Pengelolaan Keamanan Terpusat:**
+  Threatcast dan backend saling terintegrasi sebagai command center aktif.
 
 ---
 
-## 📚 Langkah Lanjut & Referensi
+## 📚 Rekomendasi & Langkah Lanjut
 
-* [ ] Tambahkan kolom status risiko pada skema database perangkat/pengguna.
-* [ ] Update backend API untuk penerimaan event dan enforcement risk status.
-* [ ] Update aplikasi agar dapat memproses respons keamanan dari backend.
-* [ ] Integrasikan Threatcast dengan API backend risk.
-* [ ] Simulasikan skenario serangan untuk memastikan otomasi berjalan efektif.
+1. **Bangun integrasi API dua arah** antara Threatcast dan backend wondr, sehingga flag risiko dapat langsung diterima backend.
+2. **Evaluasi opsi pembentukan device\_id** berbasis hardware signature (bila privacy dan regulasi memungkinkan), agar risk tracking lebih persisten.
+3. **Perkuat audit trail dan compliance** dengan menyimpan histori status risiko di backend minimal 6 bulan.
+4. **Sosialisasi keterbatasan** terkait device\_id pada tim audit dan compliance, agar investigasi manual dapat mempertimbangkan aspek ini.
+5. **Sediakan template edukasi user** yang jelas apabila device mereka terkena blokir/enforcement.
+
+---
 
 **Referensi:**
 
-* [Guardsquare Threatcast Documentation](https://www.guardsquare.com/)
-* [OWASP Mobile Security Project](https://owasp.org/www-project-mobile-security-testing-guide/)
+* [Guardsquare Threatcast Documentation](https://www.guardsquare.com/products/threatcast)
+* [OWASP Mobile Security Testing Guide](https://owasp.org/www-project-mobile-security-testing-guide/)
 * [Google Play Integrity API](https://developer.android.com/google/play/integrity)
+* [ISO/IEC 27001:2013 – Information Security Management](https://www.iso.org/isoiec-27001-information-security.html)
 
 ---
