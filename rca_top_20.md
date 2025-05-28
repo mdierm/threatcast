@@ -75,8 +75,6 @@ flowchart TD
     J -- No --> L[Low Risk: Lanjut onboarding/transaksi (Monitor rutin)]
 ```
 
----
-
 ### **Penjelasan Flow**
 
 * **Low Risk:**
