@@ -43,7 +43,7 @@
 
 ## 3. Flow Diagram (Gambar Visual & Mermaid)
 
-```
+```mermaid
 flowchart TD
     Start([User onboarding/login/transaksi])
     Start --> Cek{Device sama seperti sebelumnya?}
