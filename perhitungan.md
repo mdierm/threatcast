@@ -122,7 +122,7 @@ flowchart TD
     H -- Tidak --> J{Ada anomali lain?}
     J -- Ya --> K[Allow onboarding\nBackend alert/monitor lanjut]
     J -- Tidak --> L[Lanjut proses (diperbolehkan)]
-```
+
 ---
 
 ## 5. Narasi Kebijakan
