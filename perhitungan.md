@@ -122,7 +122,6 @@ flowchart TD
     H -- Tidak --> J{Ada anomali lain?}
     J -- Ya --> K[Allow onboarding dan backend alert/monitor lanjut]
     J -- Tidak --> L[Lanjut proses (diperbolehkan)]
-
 ```
 
 ---
