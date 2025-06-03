@@ -50,19 +50,29 @@
 
 ```mermaid
 flowchart TD
-    START([User onboarding/transaksi])
-    START --> D1{Device sama?}
-    D1 -- Ya --> D2{Model Top 20?}
-    D2 -- No --> OK1[Low Risk: Lanjut]
-    D2 -- Yes --> HR1[High Risk: Alert]
-    D1 -- Tidak --> D3[Hitung ganti device]
-    D3 --> D4{Ganti >2x?}
-    D4 -- Yes --> HR2[High Risk: Block]
-    D4 -- No --> D5{Model Top 20?}
-    D5 -- Yes --> HR3[High Risk: Block+Manual]
-    D5 -- No --> D6{Anomali?}
-    D6 -- Yes --> MR1[Medium Risk: Alert]
-    D6 -- No --> OK2[Low Risk: Lanjut]
+    A1[User Action on Mobile App] --> A2[Mobile App Generate Security Event]
+    A2 --> B1[API Gateway / Backend Service]
+    B1 --> B2[Event Logging (Event Store / Message Queue)]
+    B2 --> C1[SIEM/Fraud Analytics Platform]
+    B2 --> C2[UEBA Risk Scoring Engine]
+    C1 --> D1[Correlation Rule Detection]
+    D1 --> D2[Incident Response Team]
+    D2 --> D3[Manual or Automated Enforcement]
+    D3 --> F[Audit Trail & Reporting]
+    C2 --> E1[Behavior Analysis & Risk Score Aggregation]
+    E1 --> E2{Risk Score Threshold?}
+    E2 -- Low Risk --> F
+    E2 -- Warning --> G1[Enforcement: MFA/Monitoring]
+    G1 --> F
+    E2 -- High Risk --> G2[Enforcement: Block/Review]
+    G2 --> F
+    G2 -.-> B1
+    G1 -.-> B1
+    B1 --> H[Core Banking System]
+    G1 --> H
+    G2 --> H
+    F --> I[Compliance / Audit Team]
+
 
 ```
 
