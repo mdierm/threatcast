@@ -72,8 +72,6 @@ flowchart TD
     G1 --> H
     G2 --> H
     F --> I[Compliance / Audit Team]
-
-
 ```
 
 # ✍️ **Narasi Ringkas & Penjelasan Setiap Jalur**
