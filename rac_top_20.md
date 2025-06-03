@@ -50,28 +50,29 @@
 
 ```mermaid
 flowchart TD
-    A1[User Action on Mobile App] --> A2[Mobile App Generate Security Event]
-    A2 --> B1[API Gateway / Backend Service]
-    B1 --> B2[Event Logging (Event Store / Message Queue)]
-    B2 --> C1[SIEM/Fraud Analytics Platform]
-    B2 --> C2[UEBA Risk Scoring Engine]
-    C1 --> D1[Correlation Rule Detection]
-    D1 --> D2[Incident Response Team]
-    D2 --> D3[Manual or Automated Enforcement]
-    D3 --> F[Audit Trail & Reporting]
-    C2 --> E1[Behavior Analysis & Risk Score Aggregation]
-    E1 --> E2{Risk Score Threshold?}
-    E2 -- Low Risk --> F
-    E2 -- Warning --> G1[Enforcement: MFA/Monitoring]
-    G1 --> F
-    E2 -- High Risk --> G2[Enforcement: Block/Review]
-    G2 --> F
-    G2 -.-> B1
-    G1 -.-> B1
-    B1 --> H[Core Banking System]
-    G1 --> H
-    G2 --> H
-    F --> I[Compliance / Audit Team]
+    A1[User] --> A2[App Event]
+    A2 --> B1[API]
+    B1 --> B2[Event Log]
+    B2 --> C1[SIEM]
+    B2 --> C2[UEBA]
+    C1 --> D1[SIEM Correlation]
+    D1 --> D2[SIEM Response]
+    D2 --> D3[SIEM Enforcement]
+    D3 --> F1[SIEM Audit]
+    C2 --> E1[Risk Scoring]
+    E1 --> E2[Risk Check]
+    E2 --> E3[Low Risk]
+    E2 --> G1[MFA/Monitor]
+    E2 --> G2[Block/Review]
+    G1 --> F2[UEBA Audit]
+    G2 --> F2
+    E3 --> F2
+    G1 --> H1[CoreBank]
+    G2 --> H1
+    D3 --> H1
+    F1 --> I1[Compliance]
+    F2 --> I1
+
 ```
 
 # ✍️ **Narasi Ringkas & Penjelasan Setiap Jalur**
